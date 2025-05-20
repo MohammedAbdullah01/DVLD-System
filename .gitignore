@@ -1,0 +1,66 @@
+
+# Build results
+bin/
+obj/
+[Bb]uild/
+[Bb]uilds/
+
+# Visual Studio folders
+.vs/
+.vscode/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Backup & Cache
+*.bak
+*.cache
+*.log
+*.pdb
+*.tmp
+*.dbmdl
+
+# Others
+*.ncb
+*.sdf
+*.opensdf
+*.VC.db
+*.class
+*.DS_Store
+Thumbs.db
+
+# NuGet Packages
+packages/
+*.nupkg
+
+# Publish folder
+publish/
+
+# Environment variables
+.env
+
+# Rider IDE
+.idea/
+
+# Windows thumbnail cache
+ehthumbs.db
+
+# Crash reports
+*.stackdump
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Test results
+TestResults/
+*.trx
+
+# DotCover
+*.dcvr
+
+# Node/NPM (in case any web-based admin UI exists)
+node_modules/
