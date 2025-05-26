@@ -15,12 +15,12 @@ namespace DVLDPresentationLayer.Persons.Controls
 
         public ComboBox ComboBoxFilterBy
         {
-            get { return cmbFilterBy; }
+            get { return cmbPersonFilterBy; }
         }
 
         public TextBox TextBoxInputFilterByPerson
         {
-            get { return txbInputFilterByPerson; }
+            get { return txbPersonFilterBy; }
         }
         public ctrPersonListFilterBy()
         {
@@ -29,7 +29,42 @@ namespace DVLDPresentationLayer.Persons.Controls
 
         private void cmbFilterBy_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TextBoxInputFilterByPerson.Enabled = (cmbFilterBy.SelectedIndex != 0) ? true : false;
+            txbPersonFilterBy.Enabled = (cmbPersonFilterBy.SelectedIndex != 0) ? true : false;
+
+            txbPersonFilterBy.Text = string.Empty;
+            if (cmbPersonFilterBy.SelectedIndex == 0 && 
+                !string.IsNullOrEmpty(txbPersonFilterBy.Text.Trim()))
+            {
+                txbPersonFilterBy.Text = string.Empty;
+            }
+        }
+
+        private void ctrPersonListFilterBy_Load(object sender, EventArgs e)
+        {
+            cmbPersonFilterBy.Items.Add("None");
+            cmbPersonFilterBy.Items.Add("Person ID");
+            cmbPersonFilterBy.Items.Add("National ID");
+            cmbPersonFilterBy.Items.Add("First Name");
+            cmbPersonFilterBy.Items.Add("Second Name");
+            cmbPersonFilterBy.Items.Add("Third Name");
+            cmbPersonFilterBy.Items.Add("Last Name");
+            cmbPersonFilterBy.Items.Add("Gender");
+            cmbPersonFilterBy.Items.Add("Nationality");
+            cmbPersonFilterBy.Items.Add("Phone");
+            cmbPersonFilterBy.Items.Add("Email");
+
+            cmbPersonFilterBy.SelectedIndex = 0;
+            txbPersonFilterBy.Enabled = false;
+        }
+
+        private void txbPersonFilterBy_TextChanged(object sender, EventArgs e)
+        {
+            MessageBox.Show("Text changed in the filter text box.");
+        }
+
+        public void RemoveTextChangedHandler()
+        {
+            txbPersonFilterBy.TextChanged -= txbPersonFilterBy_TextChanged;
         }
     }
 }

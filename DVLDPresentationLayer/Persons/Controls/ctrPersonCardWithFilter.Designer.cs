@@ -28,42 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ctrlPersonCard1 = new DVLDPresentationLayer.UserControls.ctrlPersonCard();
             this.ctrPersonFilterBy1 = new DVLDPresentationLayer.Persons.Controls.ctrPersonFilterBy();
+            this.ctrlPersonCard1 = new DVLDPresentationLayer.UserControls.ctrlPersonCard();
             this.SuspendLayout();
-            // 
-            // ctrlPersonCard1
-            // 
-            this.ctrlPersonCard1.Location = new System.Drawing.Point(3, 129);
-            this.ctrlPersonCard1.Name = "ctrlPersonCard1";
-            this.ctrlPersonCard1.Size = new System.Drawing.Size(641, 336);
-            this.ctrlPersonCard1.TabIndex = 4;
             // 
             // ctrPersonFilterBy1
             // 
-            this.ctrPersonFilterBy1.AutoSize = true;
-            this.ctrPersonFilterBy1.Location = new System.Drawing.Point(12, 22);
+            this.ctrPersonFilterBy1.Location = new System.Drawing.Point(6, 3);
             this.ctrPersonFilterBy1.Name = "ctrPersonFilterBy1";
-            this.ctrPersonFilterBy1.Size = new System.Drawing.Size(601, 101);
+            this.ctrPersonFilterBy1.Size = new System.Drawing.Size(602, 39);
             this.ctrPersonFilterBy1.TabIndex = 5;
+            // 
+            // ctrlPersonCard1
+            // 
+            this.ctrlPersonCard1.Location = new System.Drawing.Point(6, 48);
+            this.ctrlPersonCard1.Name = "ctrlPersonCard1";
+            this.ctrlPersonCard1.Size = new System.Drawing.Size(820, 369);
+            this.ctrlPersonCard1.TabIndex = 6;
             // 
             // ctrPersonCardWithFilter
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.ctrPersonFilterBy1);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.ctrlPersonCard1);
+            this.Controls.Add(this.ctrPersonFilterBy1);
+            this.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Name = "ctrPersonCardWithFilter";
-            this.Size = new System.Drawing.Size(650, 466);
-            this.Load += new System.EventHandler(this.ctrPersonCardWithFilter_Load);
+            this.Size = new System.Drawing.Size(832, 420);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private ctrlPersonCard ctrlPersonCard1;
         private Persons.Controls.ctrPersonFilterBy ctrPersonFilterBy1;
+        private ctrlPersonCard ctrlPersonCard1;
     }
 }
