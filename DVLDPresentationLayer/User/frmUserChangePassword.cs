@@ -10,12 +10,11 @@ using System.Windows.Forms;
 
 namespace DVLDPresentationLayer.User
 {
-    public partial class frmLoginScreen : Form
+    public partial class frmUserChangePassword : Form
     {
-        public frmLoginScreen()
+        public frmUserChangePassword()
         {
             InitializeComponent();
-            ctrHeaderTitleControl2.Title = "Login To Your Account";
         }
     }
 }

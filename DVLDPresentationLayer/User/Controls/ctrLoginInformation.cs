@@ -8,14 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DVLDPresentationLayer.User
+namespace DVLDPresentationLayer.User.Controls
 {
-    public partial class frmLoginScreen : Form
+    public partial class ctrLoginInformation : UserControl
     {
-        public frmLoginScreen()
+        public ctrLoginInformation()
         {
             InitializeComponent();
-            ctrHeaderTitleControl2.Title = "Login To Your Account";
         }
     }
 }

@@ -10,12 +10,11 @@ using System.Windows.Forms;
 
 namespace DVLDPresentationLayer.User.Controls
 {
-    public partial class frmListUser : Form
+    public partial class ctrChangePassword : UserControl
     {
-        public frmListUser()
+        public ctrChangePassword()
         {
             InitializeComponent();
         }
-
     }
 }

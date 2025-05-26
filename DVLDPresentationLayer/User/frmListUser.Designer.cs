@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.labHeaderTitleUser = new System.Windows.Forms.Label();
-            this.btnCloseForm = new System.Windows.Forms.Button();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.labTotalRecordsValue = new System.Windows.Forms.Label();
             this.labTotalRecords = new System.Windows.Forms.Label();
             this.btnAddNewUser = new System.Windows.Forms.Button();
@@ -40,38 +38,17 @@
             this.FullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ThirdName = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ctrUserFilterBy = new DVLDPresentationLayer.Persons.Controls.ctrPersonFilterBy();
+            this.ctrButtonClose1 = new DVLDPresentationLayer.Controls.ctrButtonClose();
+            this.ctrFilterByUser1 = new DVLDPresentationLayer.User.Controls.ctrFilterByUser();
+            this.ctrHeaderTitleControl1 = new DVLDPresentationLayer.Controls.ctrHeaderTitleControl();
             ((System.ComponentModel.ISupportInitialize)(this.dGVListUsers)).BeginInit();
             this.SuspendLayout();
-            // 
-            // labHeaderTitleUser
-            // 
-            this.labHeaderTitleUser.AutoSize = true;
-            this.labHeaderTitleUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labHeaderTitleUser.ForeColor = System.Drawing.Color.IndianRed;
-            this.labHeaderTitleUser.Location = new System.Drawing.Point(309, 16);
-            this.labHeaderTitleUser.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.labHeaderTitleUser.Name = "labHeaderTitleUser";
-            this.labHeaderTitleUser.Size = new System.Drawing.Size(200, 33);
-            this.labHeaderTitleUser.TabIndex = 17;
-            this.labHeaderTitleUser.Text = "Manage User";
-            // 
-            // btnCloseForm
-            // 
-            this.btnCloseForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCloseForm.Location = new System.Drawing.Point(675, 519);
-            this.btnCloseForm.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
-            this.btnCloseForm.Name = "btnCloseForm";
-            this.btnCloseForm.Size = new System.Drawing.Size(125, 30);
-            this.btnCloseForm.TabIndex = 16;
-            this.btnCloseForm.Text = "Close";
-            this.btnCloseForm.UseVisualStyleBackColor = true;
             // 
             // labTotalRecordsValue
             // 
             this.labTotalRecordsValue.AutoSize = true;
             this.labTotalRecordsValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labTotalRecordsValue.Location = new System.Drawing.Point(115, 517);
+            this.labTotalRecordsValue.Location = new System.Drawing.Point(105, 489);
             this.labTotalRecordsValue.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labTotalRecordsValue.Name = "labTotalRecordsValue";
             this.labTotalRecordsValue.Size = new System.Drawing.Size(31, 16);
@@ -82,7 +59,7 @@
             // 
             this.labTotalRecords.AutoSize = true;
             this.labTotalRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labTotalRecords.Location = new System.Drawing.Point(12, 515);
+            this.labTotalRecords.Location = new System.Drawing.Point(12, 486);
             this.labTotalRecords.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labTotalRecords.Name = "labTotalRecords";
             this.labTotalRecords.Size = new System.Drawing.Size(91, 18);
@@ -92,13 +69,14 @@
             // btnAddNewUser
             // 
             this.btnAddNewUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddNewUser.Location = new System.Drawing.Point(675, 144);
+            this.btnAddNewUser.Location = new System.Drawing.Point(676, 85);
             this.btnAddNewUser.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.btnAddNewUser.Name = "btnAddNewUser";
             this.btnAddNewUser.Size = new System.Drawing.Size(125, 30);
             this.btnAddNewUser.TabIndex = 12;
             this.btnAddNewUser.Text = "Add New User";
             this.btnAddNewUser.UseVisualStyleBackColor = true;
+            this.btnAddNewUser.Click += new System.EventHandler(this.btnAddNewUser_Click);
             // 
             // dGVListUsers
             // 
@@ -112,18 +90,18 @@
             this.UserName,
             this.ThirdName});
             this.dGVListUsers.Cursor = System.Windows.Forms.Cursors.Hand;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dGVListUsers.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dGVListUsers.Location = new System.Drawing.Point(15, 182);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dGVListUsers.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dGVListUsers.Location = new System.Drawing.Point(15, 123);
             this.dGVListUsers.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.dGVListUsers.Name = "dGVListUsers";
-            this.dGVListUsers.Size = new System.Drawing.Size(785, 329);
+            this.dGVListUsers.Size = new System.Drawing.Size(788, 356);
             this.dGVListUsers.TabIndex = 10;
             // 
             // UserID
@@ -159,29 +137,45 @@
             this.ThirdName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.ThirdName.Width = 80;
             // 
-            // ctrUserFilterBy
+            // ctrButtonClose1
             // 
-            this.ctrUserFilterBy.AutoSize = true;
-            this.ctrUserFilterBy.FilterByValue = "";
-            this.ctrUserFilterBy.Location = new System.Drawing.Point(12, 74);
-            this.ctrUserFilterBy.Name = "ctrUserFilterBy";
-            this.ctrUserFilterBy.Size = new System.Drawing.Size(601, 101);
-            this.ctrUserFilterBy.TabIndex = 18;
+            this.ctrButtonClose1.ButtonText = "CLose";
+            this.ctrButtonClose1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ctrButtonClose1.Location = new System.Drawing.Point(726, 486);
+            this.ctrButtonClose1.Name = "ctrButtonClose1";
+            this.ctrButtonClose1.Size = new System.Drawing.Size(77, 32);
+            this.ctrButtonClose1.TabIndex = 19;
+            // 
+            // ctrFilterByUser1
+            // 
+            this.ctrFilterByUser1.AutoSize = true;
+            this.ctrFilterByUser1.Location = new System.Drawing.Point(15, 70);
+            this.ctrFilterByUser1.Name = "ctrFilterByUser1";
+            this.ctrFilterByUser1.Size = new System.Drawing.Size(603, 46);
+            this.ctrFilterByUser1.TabIndex = 18;
+            // 
+            // ctrHeaderTitleControl1
+            // 
+            this.ctrHeaderTitleControl1.Location = new System.Drawing.Point(215, 12);
+            this.ctrHeaderTitleControl1.Name = "ctrHeaderTitleControl1";
+            this.ctrHeaderTitleControl1.Size = new System.Drawing.Size(388, 65);
+            this.ctrHeaderTitleControl1.TabIndex = 20;
+            this.ctrHeaderTitleControl1.Title = "HEADWER TITLE";
             // 
             // frmListUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 564);
-            this.Controls.Add(this.ctrUserFilterBy);
-            this.Controls.Add(this.labHeaderTitleUser);
-            this.Controls.Add(this.btnCloseForm);
+            this.ClientSize = new System.Drawing.Size(818, 521);
+            this.Controls.Add(this.ctrHeaderTitleControl1);
+            this.Controls.Add(this.ctrButtonClose1);
+            this.Controls.Add(this.ctrFilterByUser1);
             this.Controls.Add(this.labTotalRecordsValue);
             this.Controls.Add(this.labTotalRecords);
             this.Controls.Add(this.btnAddNewUser);
             this.Controls.Add(this.dGVListUsers);
             this.Name = "frmListUser";
-            this.Text = "frmListUser";
+            this.Text = "List Users";
             ((System.ComponentModel.ISupportInitialize)(this.dGVListUsers)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -189,8 +183,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label labHeaderTitleUser;
-        private System.Windows.Forms.Button btnCloseForm;
         private System.Windows.Forms.Label labTotalRecordsValue;
         private System.Windows.Forms.Label labTotalRecords;
         private System.Windows.Forms.Button btnAddNewUser;
@@ -200,6 +192,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FullName;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ThirdName;
-        private Persons.Controls.ctrPersonFilterBy ctrUserFilterBy;
+        private ctrFilterByUser ctrFilterByUser1;
+        private DVLDPresentationLayer.Controls.ctrButtonClose ctrButtonClose1;
+        private DVLDPresentationLayer.Controls.ctrHeaderTitleControl ctrHeaderTitleControl1;
     }
 }
