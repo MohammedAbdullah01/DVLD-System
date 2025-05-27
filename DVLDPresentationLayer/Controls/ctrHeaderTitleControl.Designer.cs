@@ -1,6 +1,6 @@
 ﻿namespace DVLDPresentationLayer.Controls
 {
-    partial class HeaderTitleControl
+    partial class ctrHeaderTitleControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -34,21 +34,20 @@
             // labHeaderTitle
             // 
             this.labHeaderTitle.AutoSize = true;
-            this.labHeaderTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labHeaderTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labHeaderTitle.Location = new System.Drawing.Point(85, 28);
+            this.labHeaderTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labHeaderTitle.ForeColor = System.Drawing.Color.Purple;
+            this.labHeaderTitle.Location = new System.Drawing.Point(10, 9);
             this.labHeaderTitle.Name = "labHeaderTitle";
-            this.labHeaderTitle.Size = new System.Drawing.Size(202, 37);
+            this.labHeaderTitle.Size = new System.Drawing.Size(333, 42);
             this.labHeaderTitle.TabIndex = 0;
-            this.labHeaderTitle.Text = "Header Title";
+            this.labHeaderTitle.Text = "HEADWER TITLE";
             // 
-            // HeaderTitleControl
+            // ctrHeaderTitleControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.labHeaderTitle);
-            this.Name = "HeaderTitleControl";
-            this.Size = new System.Drawing.Size(375, 98);
+            this.Name = "ctrHeaderTitleControl";
+            this.Size = new System.Drawing.Size(388, 65);
             this.ResumeLayout(false);
             this.PerformLayout();
 

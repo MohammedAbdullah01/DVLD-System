@@ -156,11 +156,11 @@
             // 
             // ctrHeaderTitleControl1
             // 
-            this.ctrHeaderTitleControl1.Location = new System.Drawing.Point(215, 12);
+            this.ctrHeaderTitleControl1.Location = new System.Drawing.Point(264, 12);
             this.ctrHeaderTitleControl1.Name = "ctrHeaderTitleControl1";
-            this.ctrHeaderTitleControl1.Size = new System.Drawing.Size(388, 65);
+            this.ctrHeaderTitleControl1.Size = new System.Drawing.Size(290, 52);
             this.ctrHeaderTitleControl1.TabIndex = 20;
-            this.ctrHeaderTitleControl1.Title = "HEADWER TITLE";
+            this.ctrHeaderTitleControl1.Title = "Manage Users";
             // 
             // frmListUser
             // 

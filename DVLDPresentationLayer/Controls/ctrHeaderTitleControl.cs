@@ -10,9 +10,15 @@ using System.Windows.Forms;
 
 namespace DVLDPresentationLayer.Controls
 {
-    public partial class HeaderTitleControl : UserControl
+    public partial class ctrHeaderTitleControl : UserControl
     {
-        public HeaderTitleControl()
+
+        public string Title
+        {
+            get { return labHeaderTitle.Text; }
+            set { labHeaderTitle.Text = value; }
+        }
+        public ctrHeaderTitleControl()
         {
             InitializeComponent();
         }

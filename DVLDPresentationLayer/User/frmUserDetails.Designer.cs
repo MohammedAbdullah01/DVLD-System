@@ -37,7 +37,7 @@
             // 
             this.ctrButtonClose1.ButtonText = "CLose";
             this.ctrButtonClose1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ctrButtonClose1.Location = new System.Drawing.Point(751, 487);
+            this.ctrButtonClose1.Location = new System.Drawing.Point(751, 478);
             this.ctrButtonClose1.Name = "ctrButtonClose1";
             this.ctrButtonClose1.Size = new System.Drawing.Size(83, 32);
             this.ctrButtonClose1.TabIndex = 0;
@@ -51,7 +51,7 @@
             // 
             // ctrLoginInformation1
             // 
-            this.ctrLoginInformation1.Location = new System.Drawing.Point(11, 396);
+            this.ctrLoginInformation1.Location = new System.Drawing.Point(14, 387);
             this.ctrLoginInformation1.Name = "ctrLoginInformation1";
             this.ctrLoginInformation1.Size = new System.Drawing.Size(820, 85);
             this.ctrLoginInformation1.TabIndex = 2;
@@ -60,7 +60,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(842, 526);
+            this.ClientSize = new System.Drawing.Size(842, 517);
             this.Controls.Add(this.ctrLoginInformation1);
             this.Controls.Add(this.ctrlPersonCard1);
             this.Controls.Add(this.ctrButtonClose1);

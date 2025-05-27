@@ -53,12 +53,15 @@ namespace DVLDPresentationLayer.Persons.Controls
 
         private void cmbPersonFilterBy_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txbPersonFilterBy.Enabled = (cmbPersonFilterBy.SelectedIndex != 0) ? true : false;
-
-            txbPersonFilterBy.Text = string.Empty;
-            if (cmbPersonFilterBy.SelectedIndex == 0 &&
-                !string.IsNullOrEmpty(txbPersonFilterBy.Text.Trim()))
+            if(cmbPersonFilterBy.SelectedIndex != 0)
             {
+                txbPersonFilterBy.Enabled = true;
+                btnSearch.Enabled = true;
+            }
+            else
+            {
+                txbPersonFilterBy.Enabled = false;
+                btnSearch.Enabled = false;
                 txbPersonFilterBy.Text = string.Empty;
             }
         }

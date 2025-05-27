@@ -15,7 +15,6 @@ namespace DVLDPresentationLayer.User.Controls
         public frmListUser()
         {
             InitializeComponent();
-            ctrHeaderTitleControl1.Title = "Manage Users";
         }
 
         private void btnAddNewUser_Click(object sender, EventArgs e)
