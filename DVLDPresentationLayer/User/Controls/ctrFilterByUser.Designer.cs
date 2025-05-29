@@ -32,7 +32,6 @@
             this.comboActive = new System.Windows.Forms.ComboBox();
             this.txbUserFilterBy = new System.Windows.Forms.TextBox();
             this.cmbUserFilterBy = new System.Windows.Forms.ComboBox();
-            this.labFilterBy = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
@@ -40,7 +39,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(6, 17);
+            this.label1.Location = new System.Drawing.Point(6, 21);
             this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(75, 18);
@@ -53,7 +52,6 @@
             this.comboActive.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboActive.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboActive.FormattingEnabled = true;
-
             this.comboActive.Items.AddRange(new object[] {
             "All",
             "Yes",
@@ -63,8 +61,8 @@
             this.comboActive.Name = "comboActive";
             this.comboActive.Size = new System.Drawing.Size(200, 24);
             this.comboActive.TabIndex = 14;
-            this.comboActive.SelectedIndexChanged += new System.EventHandler(this.comboActive_SelectedIndexChanged);
             this.comboActive.Visible = false;
+            this.comboActive.SelectedIndexChanged += new System.EventHandler(this.comboActive_SelectedIndexChanged);
             // 
             // txbUserFilterBy
             // 
@@ -93,18 +91,6 @@
             this.cmbUserFilterBy.TabIndex = 15;
             this.cmbUserFilterBy.SelectedIndexChanged += new System.EventHandler(this.cmbUserFilterBy_SelectedIndexChanged);
             // 
-            // labFilterBy
-            // 
-            this.labFilterBy.AutoSize = true;
-            this.labFilterBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labFilterBy.Location = new System.Drawing.Point(8, 18);
-            this.labFilterBy.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.labFilterBy.MaximumSize = new System.Drawing.Size(75, 18);
-            this.labFilterBy.Name = "labFilterBy";
-            this.labFilterBy.Size = new System.Drawing.Size(75, 18);
-            this.labFilterBy.TabIndex = 17;
-            this.labFilterBy.Text = "Filter By:";
-            // 
             // ctrFilterByUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -112,7 +98,6 @@
             this.AutoSize = true;
             this.Controls.Add(this.txbUserFilterBy);
             this.Controls.Add(this.cmbUserFilterBy);
-            this.Controls.Add(this.labFilterBy);
             this.Controls.Add(this.comboActive);
             this.Controls.Add(this.label1);
             this.Name = "ctrFilterByUser";
@@ -127,7 +112,6 @@
         private System.Windows.Forms.ComboBox comboActive;
         private System.Windows.Forms.TextBox txbUserFilterBy;
         private System.Windows.Forms.ComboBox cmbUserFilterBy;
-        private System.Windows.Forms.Label labFilterBy;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

@@ -54,7 +54,7 @@ namespace DVLDPresentationLayer.Persons.Controls
             cmbPersonFilterBy.Items.Add("Email");
 
             cmbPersonFilterBy.SelectedIndex = 0;
-            txbPersonFilterBy.Enabled = false;
+            txbPersonFilterBy.Visible = false;
         }
 
         private void txbPersonFilterBy_TextChanged(object sender, EventArgs e)
@@ -65,6 +65,11 @@ namespace DVLDPresentationLayer.Persons.Controls
         public void RemoveTextChangedHandler()
         {
             txbPersonFilterBy.TextChanged -= txbPersonFilterBy_TextChanged;
+        }
+
+        private void labFilterBy_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

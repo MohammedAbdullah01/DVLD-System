@@ -66,6 +66,7 @@
             this.labFilterBy.Size = new System.Drawing.Size(75, 18);
             this.labFilterBy.TabIndex = 6;
             this.labFilterBy.Text = "Filter By:";
+            this.labFilterBy.Click += new System.EventHandler(this.labFilterBy_Click);
             // 
             // ctrPersonListFilterBy
             // 
