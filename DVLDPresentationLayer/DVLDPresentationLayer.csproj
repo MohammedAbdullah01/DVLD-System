@@ -268,6 +268,42 @@
     <Compile Include="Controls\ctrHeaderTitleControl.Designer.cs">
       <DependentUpon>ctrHeaderTitleControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DetainLicenses\Controls\ctrDetainInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetainLicenses\Controls\ctrDetainInfo.Designer.cs">
+      <DependentUpon>ctrDetainInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetainLicenses\Controls\ctrReleaseDetainInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetainLicenses\Controls\ctrReleaseDetainInfo.Designer.cs">
+      <DependentUpon>ctrReleaseDetainInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetainLicenses\Controls\ctrListDetainedLicensesFilterBy.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetainLicenses\Controls\ctrListDetainedLicensesFilterBy.Designer.cs">
+      <DependentUpon>ctrListDetainedLicensesFilterBy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetainLicenses\frmDetainLicense.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DetainLicenses\frmDetainLicense.Designer.cs">
+      <DependentUpon>frmDetainLicense.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetainLicenses\frmListDetainedLicenses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DetainLicenses\frmListDetainedLicenses.Designer.cs">
+      <DependentUpon>frmListDetainedLicenses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetainLicenses\frmReleaseDetainedLicense.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DetainLicenses\frmReleaseDetainedLicense.Designer.cs">
+      <DependentUpon>frmReleaseDetainedLicense.cs</DependentUpon>
+    </Compile>
     <Compile Include="Driver\Control\ctrListDriverFilterBy.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -493,6 +529,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ctrHeaderTitleControl.resx">
       <DependentUpon>ctrHeaderTitleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetainLicenses\Controls\ctrDetainInfo.resx">
+      <DependentUpon>ctrDetainInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetainLicenses\Controls\ctrReleaseDetainInfo.resx">
+      <DependentUpon>ctrReleaseDetainInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetainLicenses\Controls\ctrListDetainedLicensesFilterBy.resx">
+      <DependentUpon>ctrListDetainedLicensesFilterBy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetainLicenses\frmDetainLicense.resx">
+      <DependentUpon>frmDetainLicense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetainLicenses\frmListDetainedLicenses.resx">
+      <DependentUpon>frmListDetainedLicenses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetainLicenses\frmReleaseDetainedLicense.resx">
+      <DependentUpon>frmReleaseDetainedLicense.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Driver\Control\ctrListDriverFilterBy.resx">
       <DependentUpon>ctrListDriverFilterBy.cs</DependentUpon>

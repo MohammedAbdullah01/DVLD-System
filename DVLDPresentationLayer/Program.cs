@@ -1,4 +1,5 @@
 ﻿using DVLDPresentationLayer.Applications;
+using DVLDPresentationLayer.DetainLicenses;
 using DVLDPresentationLayer.Driver;
 using DVLDPresentationLayer.Persons;
 using DVLDPresentationLayer.User;
@@ -41,7 +42,9 @@ namespace DVLDPresentationLayer
             //Application.Run(new frmLicenseHistory());
             //Application.Run(new frmListInternationalLicensesApplication());
             //Application.Run(new frmRenewLocalDrivingLicense()); 
-            Application.Run(new frmReplacementDamagedORLostLicense());
+            //Application.Run(new frmReplacementDamagedORLostLicense());
+            //Application.Run(new frmListDetainedLicenses());
+            Application.Run(new frmReleaseDetainedLicense());
 
         }
     }
