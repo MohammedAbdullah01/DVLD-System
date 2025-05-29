@@ -28,15 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.btnRelease = new System.Windows.Forms.Button();
+            this.ctrButtonClose1 = new DVLDPresentationLayer.Controls.ctrButtonClose();
+            this.ctrShowNewLicenseInfo1 = new DVLDPresentationLayer.Applications.Controls.ctrShowNewLicenseInfo();
+            this.ctrShowLicensesHistory1 = new DVLDPresentationLayer.Applications.Controls.ctrShowLicensesHistory();
             this.ctrReleaseDetainInfo = new DVLDPresentationLayer.DetainLicenses.Controls.ctrReleaseDetainInfo();
             this.ctrLicenseInfo1 = new DVLDPresentationLayer.Applications.Controls.ctrLicenseInfo();
             this.ctrFilterByLicenseID1 = new DVLDPresentationLayer.Applications.Controls.ctrFilterByLicenseID();
             this.ctrHeaderTitleControl1 = new DVLDPresentationLayer.Controls.ctrHeaderTitleControl();
-            this.ctrShowLicensesHistory1 = new DVLDPresentationLayer.Applications.Controls.ctrShowLicensesHistory();
-            this.ctrShowNewLicenseInfo1 = new DVLDPresentationLayer.Applications.Controls.ctrShowNewLicenseInfo();
-            this.ctrButtonClose1 = new DVLDPresentationLayer.Controls.ctrButtonClose();
-            this.btnRelease = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // btnRelease
+            // 
+            this.btnRelease.BackColor = System.Drawing.Color.OliveDrab;
+            this.btnRelease.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRelease.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnRelease.Location = new System.Drawing.Point(822, 813);
+            this.btnRelease.Name = "btnRelease";
+            this.btnRelease.Size = new System.Drawing.Size(83, 32);
+            this.btnRelease.TabIndex = 6;
+            this.btnRelease.Text = "Release";
+            this.btnRelease.UseVisualStyleBackColor = false;
+            this.btnRelease.Click += new System.EventHandler(this.btnRelease_Click);
+            // 
+            // ctrButtonClose1
+            // 
+            this.ctrButtonClose1.ButtonText = "CLose";
+            this.ctrButtonClose1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ctrButtonClose1.Location = new System.Drawing.Point(733, 813);
+            this.ctrButtonClose1.Name = "ctrButtonClose1";
+            this.ctrButtonClose1.Size = new System.Drawing.Size(83, 32);
+            this.ctrButtonClose1.TabIndex = 1;
+            // 
+            // ctrShowNewLicenseInfo1
+            // 
+            this.ctrShowNewLicenseInfo1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctrShowNewLicenseInfo1.Location = new System.Drawing.Point(198, 817);
+            this.ctrShowNewLicenseInfo1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.ctrShowNewLicenseInfo1.Name = "ctrShowNewLicenseInfo1";
+            this.ctrShowNewLicenseInfo1.Size = new System.Drawing.Size(181, 25);
+            this.ctrShowNewLicenseInfo1.TabIndex = 2;
+            // 
+            // ctrShowLicensesHistory1
+            // 
+            this.ctrShowLicensesHistory1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctrShowLicensesHistory1.Location = new System.Drawing.Point(14, 817);
+            this.ctrShowLicensesHistory1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.ctrShowLicensesHistory1.Name = "ctrShowLicensesHistory1";
+            this.ctrShowLicensesHistory1.Size = new System.Drawing.Size(174, 24);
+            this.ctrShowLicensesHistory1.TabIndex = 3;
             // 
             // ctrReleaseDetainInfo
             // 
@@ -73,45 +113,6 @@
             this.ctrHeaderTitleControl1.Size = new System.Drawing.Size(490, 57);
             this.ctrHeaderTitleControl1.TabIndex = 0;
             this.ctrHeaderTitleControl1.Title = "Release Detained License";
-            // 
-            // ctrShowLicensesHistory1
-            // 
-            this.ctrShowLicensesHistory1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctrShowLicensesHistory1.Location = new System.Drawing.Point(14, 817);
-            this.ctrShowLicensesHistory1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.ctrShowLicensesHistory1.Name = "ctrShowLicensesHistory1";
-            this.ctrShowLicensesHistory1.Size = new System.Drawing.Size(174, 24);
-            this.ctrShowLicensesHistory1.TabIndex = 3;
-            // 
-            // ctrShowNewLicenseInfo1
-            // 
-            this.ctrShowNewLicenseInfo1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctrShowNewLicenseInfo1.Location = new System.Drawing.Point(198, 817);
-            this.ctrShowNewLicenseInfo1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.ctrShowNewLicenseInfo1.Name = "ctrShowNewLicenseInfo1";
-            this.ctrShowNewLicenseInfo1.Size = new System.Drawing.Size(181, 25);
-            this.ctrShowNewLicenseInfo1.TabIndex = 2;
-            // 
-            // ctrButtonClose1
-            // 
-            this.ctrButtonClose1.ButtonText = "CLose";
-            this.ctrButtonClose1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ctrButtonClose1.Location = new System.Drawing.Point(733, 813);
-            this.ctrButtonClose1.Name = "ctrButtonClose1";
-            this.ctrButtonClose1.Size = new System.Drawing.Size(83, 32);
-            this.ctrButtonClose1.TabIndex = 1;
-            // 
-            // btnRelease
-            // 
-            this.btnRelease.BackColor = System.Drawing.Color.OliveDrab;
-            this.btnRelease.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnRelease.Location = new System.Drawing.Point(822, 813);
-            this.btnRelease.Name = "btnRelease";
-            this.btnRelease.Size = new System.Drawing.Size(83, 32);
-            this.btnRelease.TabIndex = 6;
-            this.btnRelease.Text = "Release";
-            this.btnRelease.UseVisualStyleBackColor = false;
-            this.btnRelease.Click += new System.EventHandler(this.btnRelease_Click);
             // 
             // frmReleaseDetainedLicense
             // 

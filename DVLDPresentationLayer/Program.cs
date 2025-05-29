@@ -43,8 +43,9 @@ namespace DVLDPresentationLayer
             //Application.Run(new frmListInternationalLicensesApplication());
             //Application.Run(new frmRenewLocalDrivingLicense()); 
             //Application.Run(new frmReplacementDamagedORLostLicense());
-            //Application.Run(new frmListDetainedLicenses());
-            Application.Run(new frmReleaseDetainedLicense());
+            Application.Run(new frmListDetainedLicenses());
+            //Application.Run(new frmReleaseDetainedLicense());
+            //Application.Run(new frmDetainLicense());
 
         }
     }

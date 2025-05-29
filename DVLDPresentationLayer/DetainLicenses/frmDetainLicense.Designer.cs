@@ -41,6 +41,7 @@
             // btnDetain
             // 
             this.btnDetain.BackColor = System.Drawing.Color.OliveDrab;
+            this.btnDetain.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDetain.ForeColor = System.Drawing.SystemColors.Control;
             this.btnDetain.Location = new System.Drawing.Point(822, 770);
             this.btnDetain.Name = "btnDetain";
@@ -79,7 +80,7 @@
             // ctrLicenseInfo1
             // 
             this.ctrLicenseInfo1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctrLicenseInfo1.Location = new System.Drawing.Point(8, 178);
+            this.ctrLicenseInfo1.Location = new System.Drawing.Point(8, 176);
             this.ctrLicenseInfo1.Margin = new System.Windows.Forms.Padding(8, 6, 8, 6);
             this.ctrLicenseInfo1.Name = "ctrLicenseInfo1";
             this.ctrLicenseInfo1.Size = new System.Drawing.Size(900, 418);
@@ -106,7 +107,7 @@
             // ctrDetainInfo1
             // 
             this.ctrDetainInfo1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctrDetainInfo1.Location = new System.Drawing.Point(12, 606);
+            this.ctrDetainInfo1.Location = new System.Drawing.Point(12, 604);
             this.ctrDetainInfo1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.ctrDetainInfo1.Name = "ctrDetainInfo1";
             this.ctrDetainInfo1.Size = new System.Drawing.Size(896, 157);

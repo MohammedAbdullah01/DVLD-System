@@ -127,16 +127,18 @@
             // 
             // btnLicenseDetaine
             // 
+            this.btnLicenseDetaine.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLicenseDetaine.Location = new System.Drawing.Point(956, 106);
             this.btnLicenseDetaine.Name = "btnLicenseDetaine";
             this.btnLicenseDetaine.Size = new System.Drawing.Size(136, 32);
             this.btnLicenseDetaine.TabIndex = 3;
-            this.btnLicenseDetaine.Text = "License Detaine";
+            this.btnLicenseDetaine.Text = "Detaine License";
             this.btnLicenseDetaine.UseVisualStyleBackColor = true;
             this.btnLicenseDetaine.Click += new System.EventHandler(this.btnLicenseDetaine_Click);
             // 
             // btnReleaseDetaine
             // 
+            this.btnReleaseDetaine.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnReleaseDetaine.Location = new System.Drawing.Point(810, 106);
             this.btnReleaseDetaine.Name = "btnReleaseDetaine";
             this.btnReleaseDetaine.Size = new System.Drawing.Size(140, 32);
