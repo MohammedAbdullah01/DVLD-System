@@ -22,30 +22,30 @@ namespace DVLDPresentationLayer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-            //Application.Run(new frmListPersons());
-            //Application.Run(new frmAddOrEditPerson());
-            //Application.Run(new frmPersonDetails());
-            //Application.Run(new frmListUser());
-            //Application.Run(new frmLoginScreen());
-            //Application.Run(new frmAddNewUser());
-            //Application.Run(new frmManageApplicationTypes());
-            //Application.Run(new frmUpdateApplicationType());
-            //Application.Run(new frmManageTestTypes());
-            //Application.Run(new frmUpdateTestType());
-            //Application.Run(new frmLocalDrivingLicense()); 
-            //Application.Run(new frmScheduleTest()); 
-            //Application.Run(new frmTakeTest());
-            //Application.Run(new frmListDrivers());
-            //Application.Run(new frmLicenseInfo());
-            //Application.Run(new frmNewInternationalLicenseApplication());
-            //Application.Run(new frmLicenseHistory());
-            //Application.Run(new frmListInternationalLicensesApplication());
-            //Application.Run(new frmRenewLocalDrivingLicense()); 
-            //Application.Run(new frmReplacementDamagedORLostLicense());
+            Application.Run(new Main());
+            Application.Run(new frmListPersons());
+            Application.Run(new frmAddOrEditPerson());
+            Application.Run(new frmPersonDetails());
+            Application.Run(new frmListUser());
+            Application.Run(new frmLoginScreen());
+            Application.Run(new frmAddNewUser());
+            Application.Run(new frmManageApplicationTypes());
+            Application.Run(new frmUpdateApplicationType());
+            Application.Run(new frmManageTestTypes());
+            Application.Run(new frmUpdateTestType());
+            Application.Run(new frmLocalDrivingLicense());
+            Application.Run(new frmScheduleTest());
+            Application.Run(new frmTakeTest());
+            Application.Run(new frmListDrivers());
+            Application.Run(new frmLicenseInfo());
+            Application.Run(new frmNewInternationalLicenseApplication());
+            Application.Run(new frmLicenseHistory());
+            Application.Run(new frmListInternationalLicensesApplication());
+            Application.Run(new frmRenewLocalDrivingLicense());
+            Application.Run(new frmReplacementDamagedORLostLicense());
             Application.Run(new frmListDetainedLicenses());
-            //Application.Run(new frmReleaseDetainedLicense());
-            //Application.Run(new frmDetainLicense());
+            Application.Run(new frmReleaseDetainedLicense());
+            Application.Run(new frmDetainLicense());
 
         }
     }
