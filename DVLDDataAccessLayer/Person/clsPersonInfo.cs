@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DVLDDataAccessLayer.Person
 {
-    public class PersonInfo
+    public class clsPersonInfo
     {
         public int PersonID { get; set; }
         public string FirstName { get; set; }
@@ -19,7 +19,6 @@ namespace DVLDDataAccessLayer.Person
         public string Phone { get; set; }
         public string Email { get; set; }
         public char Gender { get; set; }
-        public int CountryID { get; set; }
         public string ProfilePicture { get; set; }
     }
 }

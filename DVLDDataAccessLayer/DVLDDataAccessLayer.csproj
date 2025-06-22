@@ -46,8 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsPersonData.cs" />
     <Compile Include="clsDataAccessSettings.cs" />
+    <Compile Include="PersonAddresses\clsPersonAddresseDataAccess.cs" />
+    <Compile Include="PersonAddresses\clsPersonAddresseInfo.cs" />
+    <Compile Include="PersonAddresses\clsPersonAddresseResult.cs" />
     <Compile Include="Person\clsPersonDataAccess.cs" />
     <Compile Include="Person\clsPersonInfo.cs" />
     <Compile Include="Person\PersonInfoResult.cs" />

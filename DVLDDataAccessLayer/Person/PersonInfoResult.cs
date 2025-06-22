@@ -9,7 +9,7 @@ namespace DVLDDataAccessLayer.Person
     public class PersonInfoResult
     {
         public bool Found { get; set; }
-        public PersonInfo Person { get; set; }
+        public clsPersonInfo Person { get; set; }
         public string ErrorMessage { get; set; }
     }
 }

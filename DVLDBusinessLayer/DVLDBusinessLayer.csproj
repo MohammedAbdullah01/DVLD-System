@@ -48,11 +48,22 @@
   <ItemGroup>
     <Compile Include="clsUser.cs" />
     <Compile Include="clsDriver.cs" />
-    <Compile Include="clsPerson.cs" />
+    <Compile Include="Validator\CommonValidators\ValidationUtils.cs" />
+    <Compile Include="Validator\Interface\IValidator.cs" />
+    <Compile Include="Person\clsPerson.cs" />
+    <Compile Include="Person\Validator\PersonValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validator\ValidationResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DVLDDataAccessLayer\DVLDDataAccessLayer.csproj">
+      <Project>{1ac9f324-9d50-4f56-8be1-34b1710c1e00}</Project>
+      <Name>DVLDDataAccessLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

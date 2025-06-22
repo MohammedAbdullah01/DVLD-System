@@ -645,5 +645,11 @@
   <ItemGroup>
     <Content Include="NLog.config.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DVLDBusinessLayer\DVLDBusinessLayer.csproj">
+      <Project>{b3e49cc9-49a8-49d5-86d2-d7404c78c841}</Project>
+      <Name>DVLDBusinessLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
