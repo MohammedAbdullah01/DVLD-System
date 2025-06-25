@@ -15,7 +15,7 @@ namespace DVLDDataAccessLayer.PersonAddresses.Countries
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         public static clsCountryInfoResult GetAllCountries()
         {
-                       List<clsCountryInfo> countries = new List<clsCountryInfo>();
+            List<clsCountryInfo> countries = new List<clsCountryInfo>();
             const string query = @"SELECT id, NameEN, NameAR FROM Countries";
             try
             {
@@ -38,8 +38,8 @@ namespace DVLDDataAccessLayer.PersonAddresses.Countries
                         }
 
                         _logger.Info($"{countries.Count} countries were retrieved from the database.");
-                        
-                        return clsResultBuilder.BuildCountryResult(countries, 
+
+                        return clsResultBuilder.BuildCountryResult(countries,
                             "Countries retrieved successfully");
                     }
                 }
@@ -48,18 +48,17 @@ namespace DVLDDataAccessLayer.PersonAddresses.Countries
             {
                 _logger.Error(sqlEx, "SQL error while retrieving countries.");
 
-                return clsResultBuilder.BuildCountryResult(countries, 
+                return clsResultBuilder.BuildCountryResult(countries,
                     $"Database error: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "An error occurred while retrieving countries.");
 
-                return clsResultBuilder.BuildCountryResult(countries, 
+                return clsResultBuilder.BuildCountryResult(countries,
                     "An error occurred while retrieving countries.");
             }
         }
-
         public static clsCountryInfoResult GetCountryByID(int CountryID)
         {
             clsCountryInfo country = new clsCountryInfo();
@@ -84,15 +83,15 @@ namespace DVLDDataAccessLayer.PersonAddresses.Countries
                         if (!reader.HasRows)
                         {
                             _logger.Warn($"No country found with CountryID {CountryID}.");
-                            return clsResultBuilder.BuildCountryResult(country, 
+                            return clsResultBuilder.BuildCountryResult(country,
                                 "No country found with the specified ID.");
                         }
 
                         country = clsEntityMapper.MapToCountry(reader, CountryID);
-                        
+
                         _logger.Info($"Country with ID {CountryID} was retrieved from the database.");
-                        
-                        return clsResultBuilder.BuildCountryResult(country, 
+
+                        return clsResultBuilder.BuildCountryResult(country,
                             "Country retrieved successfully");
                     }
                 }
@@ -100,14 +99,46 @@ namespace DVLDDataAccessLayer.PersonAddresses.Countries
             catch (SqlException sqlEx)
             {
                 _logger.Error(sqlEx, "SQL error while retrieving country by ID.");
-                return clsResultBuilder.BuildCountryResult(country, 
+                return clsResultBuilder.BuildCountryResult(country,
                     $"Database error: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "An error occurred while retrieving country by ID.");
-                return clsResultBuilder.BuildCountryResult(country, 
+                return clsResultBuilder.BuildCountryResult(country,
                     "An error occurred while retrieving the country.");
+            }
+        }
+
+        public static bool IsCountryExists(int CountryID)
+        {
+            if (CountryID <= 0)
+            {
+                _logger.Warn("Invalid CountryID provided.");
+                return false;
+            }
+            const string query = @"SELECT COUNT(*) FROM Countries WHERE id = @CountryID";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CountryID", CountryID);
+                    connection.Open();
+                    _logger.Debug("Database connection opened successfully.");
+                    int count = (int)command.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                _logger.Error(sqlEx, "SQL error while checking if country exists.");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "An error occurred while checking if country exists.");
+                return false;
             }
         }
     }

@@ -136,5 +136,37 @@ namespace DVLDDataAccessLayer.PersonAddresses.Governorates
                                 $"Unexpected error: {ex.Message}");
             }
         }
+
+        public static bool IsGovernorateExists(int governorateID)
+        {
+            if (governorateID <= 0)
+            {
+                _logger.Warn("Invalid GovernorateID provided.");
+                return false;
+            }
+            const string query = @"SELECT COUNT(1) FROM Governorates WHERE id = @GovernorateID";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@GovernorateID", governorateID);
+                    connection.Open();
+                    _logger.Debug("Database connection opened successfully.");
+                    int count = (int)command.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                _logger.Error($"SQL Error checking existence of governorate with ID {governorateID}: {sqlEx.Message}", sqlEx);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Unexpected error checking existence of governorate with ID {governorateID}: {ex.Message}", ex);
+                return false;
+            }
+        }
     }
 }

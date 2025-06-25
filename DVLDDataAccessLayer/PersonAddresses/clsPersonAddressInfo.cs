@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLDDataAccessLayer.PersonAddresses
 {
-    public class clsPersonAddresseInfo
+    public class clsPersonAddressInfo
     {
         public int PersonAddresseID { get; set; }
         public int PersonID { get; set; }
