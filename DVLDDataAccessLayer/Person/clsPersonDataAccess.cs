@@ -1,24 +1,47 @@
-﻿using NLog;
+﻿using DVLDDataAccessLayer.EntityMapperUtilities;
+using DVLDDataAccessLayer.PersonAddresses;
+using DVLDDataAccessLayer.Result_Helper;
+using NLog;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Security.Policy;
 
 namespace DVLDDataAccessLayer.Person
 {
     public class clsPersonDataAccess
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-        public static PersonInfoResult GetPersonInfoByID(int personID)
+        public static clsPersonInfoResult GetPersonInfoByID(int personID)
         {
             if (personID <= 0)
             {
-                logger.Warn("Invalid PersonID provided: {0}", personID);
-                return new PersonInfoResult { Found = false };
+                logger.Warn($"Invalid PersonID provided: {personID}");
+                return new clsPersonInfoResult { Found = false };
             }
 
             logger.Info($"Starting to Get Person Info By ID: {personID}");
 
-            const string query = "SELECT * FROM Persons WHERE PersonID = @PersonID";
+            const string query = @"SELECT 
+                                    P.*, 
+                                    Co.NameEn as CountriesName, Gov.NameEn as GovernorateName, 
+                                    Ci.NameEn as CityName,
+                                    Pa.BuildNo, Pa.Street
+                                FROM Persons P
+
+                                INNER JOIN PersonAddresses Pa
+                                ON P.id = Pa.PersonID
+
+                                INNER JOIN Countries Co
+                                ON Co.id = Pa.CountryId
+
+                                INNER JOIN Governorates Gov
+                                ON Gov.id = Pa.GovernorateId
+
+                                INNER JOIN Cities Ci
+                                ON Ci.id = Pa.CityId
+                                WHERE  P.id = @PersonID";
             try
             {
                 using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
@@ -32,40 +55,49 @@ namespace DVLDDataAccessLayer.Person
                     {
                         if (reader.Read())
                         {
-                            clsPersonInfo personInfo = MapReaderToPerson(reader);
+                            clsPersonInfo personInfo = clsEntityMapper.MapReaderToPerson(reader);
+
+                            
 
                             LoggerDebugPersonInfoRetrieved(personInfo);
 
                             logger.Info($"Successfully retrieved person info for ID: {personID}");
 
-                            return new PersonInfoResult { Found = true, Person = personInfo };
+                            return clsResultBuilder.BuildPersonResult(personInfo, 
+                                $"Person found with ID: {personID}");
+
                         }
-                        else
-                        {
-                            logger.Warn($"No person found with ID: {personID}");
-                            return new PersonInfoResult { Found = false };
-                        }
+                        logger.Warn($"No person found with ID: {personID}");
+
+                        return clsResultBuilder.BuildPersonResult(null, 
+                            $"No person found with ID: {personID}");
                     }
                 }
             }
             catch (SqlException sqlEx)
             {
-                logger.Error($"SQL Error retrieving person info for ID: {personID}. Exception: {sqlEx.Message}", sqlEx);
-                return new PersonInfoResult { Found = false, ErrorMessage = $"Database error: {sqlEx.Message}" };
+                logger.Error($"SQL Error retrieving person info for ID: {personID}. " +
+                    $"Exception: {sqlEx.Message}", sqlEx);
+
+                return clsResultBuilder.BuildPersonResult(null,
+                            $"Database error: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
-                logger.Error($"General error retrieving person info for ID: {personID}. Exception: {ex.Message}" , ex);
-                return new PersonInfoResult { Found = false, ErrorMessage = $"Unexpected error: {ex.Message}" };
+                logger.Error($"General error retrieving person info for ID: {personID}. " +
+                    $"Exception: {ex.Message}" , ex);
+
+                return clsResultBuilder.BuildPersonResult(null,
+                            $"Unexpected error: {ex.Message}");
             }
         }
 
-        public static PersonInfoResult GetPersonInfoByNationalNo(string nationalNo)
+        public static clsPersonInfoResult GetPersonInfoByNationalNo(string nationalNo)
         {
             if (string.IsNullOrEmpty(nationalNo))
             {
                 logger.Warn($"Invalid Provided National Number: {nationalNo}");
-                return new PersonInfoResult { Found = false };
+                return new clsPersonInfoResult { Found = false };
             }
 
 
@@ -84,37 +116,44 @@ namespace DVLDDataAccessLayer.Person
                     {
                         if (reader.Read())
                         {
-                            clsPersonInfo personInfo = MapReaderToPerson(reader);
+                            clsPersonInfo personInfo = clsEntityMapper.MapReaderToPerson(reader);
 
                             LoggerDebugPersonInfoRetrieved(personInfo);
 
-                            logger.Info($"Successfully retrieved person info for National Number: {nationalNo}");
+                            logger.Info($"Successfully retrieved person info for " +
+                                $"National Number: {nationalNo}");
 
-                            return new PersonInfoResult { Found = true, Person = personInfo };
+                            return clsResultBuilder.BuildPersonResult(personInfo, 
+                                $"Person found with National Number: {nationalNo}");
                         }
-                        else
-                        {
-                            logger.Warn($"No person found with National Number: {nationalNo}");
-                            return new PersonInfoResult { Found = false };
-                        }
+
+                        logger.Warn($"No person found with National Number: {nationalNo}");
+
+                        return clsResultBuilder.BuildPersonResult(null, 
+                            $"No person found with National Number: {nationalNo}");
                     }
                 }
             }
             catch (SqlException sqlEx)
             {
-                logger.Error($"SQL Error retrieving person info for National Number: {nationalNo}. Exception: {sqlEx.Message}", sqlEx);
-                return new PersonInfoResult { Found = false, ErrorMessage = $"Database error: {sqlEx.Message}" };
+                logger.Error($"SQL Error retrieving person info for National Number: " +
+                    $"{nationalNo}. Exception: {sqlEx.Message}", sqlEx);
+
+                return clsResultBuilder.BuildPersonResult(null, 
+                            $"Database error: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
-                logger.Error($"General error retrieving person info for National Number: {nationalNo}. Exception: {ex.Message}", ex);
-                return new PersonInfoResult { Found = false, ErrorMessage = $"Unexpected error: {ex.Message}" };
+                logger.Error($"General error retrieving person info for National Number: {nationalNo}. " +
+                    $"Exception: {ex.Message}", ex);
+
+                return clsResultBuilder.BuildPersonResult(null, 
+                            $"Unexpected error: {ex.Message}");
             }
         }
 
-        public static PersonInfoResult AddNewPerson(clsPersonInfo personInfo)
+        public static clsPersonInfoResult AddNewPerson(clsPersonInfo personInfo)
         {
-            int newPersonID = -1;
             const string query = @"
                     INSERT INTO Persons (
                         NationalNumber, FirstName, FatherName, MiddleName, LastName, DateOfBirth, 
@@ -140,48 +179,59 @@ namespace DVLDDataAccessLayer.Person
                     if (result != null && int.TryParse(result?.ToString(), out int insertedID))
                     {
                         personInfo.PersonID = insertedID;
-                        logger.Info($"Person added successfully with ID: {newPersonID}," +
+
+                        clsPersonAddresseDataAccess.AddNewPersonAddresse( personInfo.PersonAddresseInfo);
+
+                        logger.Info($"Person added successfully with ID: {insertedID}," +
                                     $" Name: {personInfo.FirstName} {personInfo.LastName}");
 
-                        return new PersonInfoResult { Found = true, Person = personInfo };
+                        return clsResultBuilder.BuildPersonResult(personInfo, 
+                            $"New person added with ID: {insertedID}");
                     }
-                    else
-                    {
-                        logger.Warn($"Failed to get inserted PersonID for person: { personInfo.FirstName} {personInfo.LastName}");
-                        return new PersonInfoResult { Found = false, ErrorMessage = "Failed to retrieve new person ID" };
-                    }
+
+                    logger.Warn($"Failed to get inserted PersonID for person: " +
+                        $"{ personInfo.FirstName} {personInfo.LastName}");
+
+                    return clsResultBuilder.BuildPersonResult(null, 
+                        "Failed to retrieve new person ID");
                 }
             }
             catch (SqlException sqlEx)
             {
-                logger.Error($"SQL Error adding new person: {personInfo.FirstName} {personInfo.LastName}. Exception: {sqlEx.Message}", sqlEx);
-                return new PersonInfoResult { Found = false, ErrorMessage = $"Database error: {sqlEx.Message}" };
+                logger.Error($"SQL Error adding new person: " +
+                    $"{personInfo.FirstName} {personInfo.LastName}. " +
+                    $"Exception: {sqlEx.Message}", sqlEx);
+
+                return clsResultBuilder.BuildPersonResult(null, 
+                            $"Database error: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
-                logger.Error($"General error adding new person: {personInfo.FirstName} {personInfo.LastName}. Exception: {ex.Message}", ex);
-                return new PersonInfoResult { Found = false, ErrorMessage = $"Unexpected error: {ex.Message}" };
+                logger.Error($"General error adding new person: " +
+                    $"{personInfo.FirstName} {personInfo.LastName}. " +
+                    $"Exception: {ex.Message}", ex);
+
+                return clsResultBuilder.BuildPersonResult(null, 
+                            $"Unexpected error: {ex.Message}");
             }
         }
 
-        public static PersonInfoResult UpdatePerson(clsPersonInfo personInfo)
+        public static clsPersonInfoResult UpdatePerson(clsPersonInfo personInfo)
         { 
             if(personInfo == null)
             {
                 logger.Warn("PersonInfo object is null in UpdatePerson");
-                return new PersonInfoResult { Found = false, ErrorMessage = "Person information is required" };
-            }
 
-            if(personInfo.PersonID <= 0)
-            {
-                logger.Warn($"Invalid PersonID provided for update: {personInfo.PersonID}");
-                return new PersonInfoResult { Found = false, ErrorMessage = "Valid Person ID is required for update" };
+                return clsResultBuilder.BuildPersonResult(null, 
+                    "PersonInfo object cannot be null");
             }
 
             if (!IsPersonExistsID(personInfo.PersonID))
             {
                 logger.Warn($"Person with ID {personInfo.PersonID} does not exist");
-                return new PersonInfoResult { Found = false, ErrorMessage = "Person not found" };
+
+                return clsResultBuilder.BuildPersonResult(null, 
+                    $"Person with ID {personInfo.PersonID} does not exist");
             }
 
             const string query = @"
@@ -196,7 +246,6 @@ namespace DVLDDataAccessLayer.Person
                     Phone = @Phone, 
                     Email = @Email, 
                     Gender = @Gender, 
-                    CountryId = @CountryId, 
                     ProfilePicture = @ProfilePicture 
                 WHERE PersonID = @PersonID;";
 
@@ -215,25 +264,34 @@ namespace DVLDDataAccessLayer.Person
 
                     if (rowAffected > 0) 
                     {
-                        logger.Info($"Person updated successfully. ID: {personInfo.PersonID}, Name: {personInfo.FirstName} {personInfo.LastName}");
-                        return new PersonInfoResult { Found = true, Person = personInfo };
+                        logger.Info($"Person updated successfully. ID: {personInfo.PersonID}, " +
+                            $"Name: {personInfo.FirstName} {personInfo.LastName}");
+
+                        clsPersonAddresseDataAccess.
+                            UpdatePersonAddresse(personInfo.PersonAddresseInfo);
+
+                        return clsResultBuilder.BuildPersonResult(personInfo, 
+                            $"Person updated successfully with ID: {personInfo.PersonID}");
                     }
-                    else 
-                    {
-                        logger.Warn($"No rows affected during update for PersonID: {personInfo.PersonID}");
-                        return new PersonInfoResult { Found = false, ErrorMessage = "Update failed - no rows affected" };
-                    }
+
+                    logger.Warn($"No rows affected during update for PersonID: {personInfo.PersonID}");
+
+                    return clsResultBuilder.BuildPersonResult(null,
+                           "Update failed - no rows affected");
                 }
             }
             catch(SqlException sqlEx)
             {
-                logger.Error($"SQL Error updating person ID: {personInfo.PersonID}. Exception: {sqlEx.Message}", sqlEx);
-                return new PersonInfoResult { Found = false, ErrorMessage = $"Database error: {sqlEx.Message}" };
+                logger.Error($"SQL Error updating person ID: {personInfo.PersonID}. " +
+                    $"Exception: {sqlEx.Message}", sqlEx);
+
+                return clsResultBuilder.BuildPersonResult(null, $"Database error: {sqlEx.Message}");
             }
             catch(Exception ex)
             {
                 logger.Error($"General error updating person ID: {personInfo.PersonID}. Exception: {ex.Message}", ex);
-                return new PersonInfoResult { Found = false, ErrorMessage = $"Unexpected error: {ex.Message}" };
+
+                return clsResultBuilder.BuildPersonResult(null, $"Unexpected error: {ex.Message}");
             }
         }
 
@@ -297,78 +355,22 @@ namespace DVLDDataAccessLayer.Person
                 return false;
             }
 
-            logger.Debug($"Checking if person exists with ID: {personID}");
-
-            const string query = "SELECT COUNT(1) FROM Persons WHERE PersonID = @PersonID";
-
-            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
-            using (SqlCommand command = new SqlCommand(query , connection))
-            {
-                try
-                {
-                    command.Parameters.AddWithValue("@PersonID", personID);
-
-                    connection.Open();
-
-                    int count = (int)command.ExecuteScalar();
-
-                    bool IsExists = count > 0;
-
-                    logger.Debug($"Person existence check for ID {personID}: {IsExists}");
-
-                    return IsExists;
-                }
-                catch (SqlException sqlEx)
-                {
-                    logger.Error($"SQL Error checking person existence for ID: {personID}. Exception: {sqlEx.Message}", sqlEx);
-                    return false;
-                }
-                catch(Exception ex)
-                {
-                    logger.Error($"General error checking person existence for ID: {personID}. Exception: {ex.Message}", ex);
-                    return false;
-                }
-            }
+            return IsPersonExistsByField("id", personID);
         }
 
         public static bool IsPersonExistsNationalNumber(string nationalNo)
         {
-            if(string.IsNullOrEmpty(nationalNo))
-            {
-                logger.Debug($"Invalid National Number provided for existence check: {nationalNo}");
-                return false;
-            }
+            return IsPersonExistsByField("NationalNumber", nationalNo);
+        }
 
-            logger.Debug($"Checking if person exists with National Number: {nationalNo}");
+        public static bool IsPersonExistsPhone(string Phone)
+        {
+            return IsPersonExistsByField("Phone", Phone);
+        }
 
-            const string query = "SELECT COUNT(1) FROM Persons WHERE NationalNumber = @nationalNo";
-
-            try 
-            { 
-                using (SqlConnection connection = new SqlConnection (clsDataAccessSettings.ConnectionString))
-                using (SqlCommand command = new SqlCommand(query , connection))
-                {
-                    command.Parameters.AddWithValue("@nationalNo", nationalNo);
-
-                    connection.Open();
-
-                    int count = (int)command.ExecuteScalar();
-                    bool IsExists = count > 0;
-
-                    logger.Debug($"Person existence check for National Number {nationalNo}: {IsExists}");
-                    return IsExists;
-                }
-            }
-            catch(SqlException sqlEx)
-            {
-                logger.Error($"SQL Error checking person existence for National Number: {nationalNo}. Exception: {sqlEx.Message}", sqlEx);
-                return false ;
-            }
-            catch(Exception ex)
-            {
-                logger.Error($"General error checking person existence for National Number: {nationalNo}. Exception: {ex.Message}", ex);
-                return false;
-            }
+        public static bool IsPersonExistsEmail(string Email)
+        {
+            return IsPersonExistsByField("Email", Email);
         }
 
         public static List<clsPersonInfo> GetAllPersons()
@@ -413,7 +415,7 @@ namespace DVLDDataAccessLayer.Person
                     {
                         while (reader.Read())
                         {
-                            clsPersonInfo personInfo = MapReaderToPerson(reader);
+                            clsPersonInfo personInfo = clsEntityMapper.MapReaderToPerson(reader);
                             persons.Add(personInfo);
                         }
                     }
@@ -450,31 +452,6 @@ namespace DVLDDataAccessLayer.Person
             command.Parameters.AddWithValue("@ProfilePicture", string.IsNullOrEmpty(personInfo.ProfilePicture) ? (object)DBNull.Value : personInfo.ProfilePicture);
         }
 
-        private static clsPersonInfo MapReaderToPerson(SqlDataReader reader)
-        {
-            return new clsPersonInfo()
-            {
-                PersonID = (int)reader["PersonID"],
-                FirstName = reader["FirstName"]?.ToString() ?? string.Empty,
-                FatherName = reader["FatherName"]?.ToString() ?? string.Empty,
-                MiddleName = reader["MiddleName"]?.ToString() ?? string.Empty,
-                LastName = reader["LastName"]?.ToString() ?? string.Empty,
-                NationalNo = reader["NationalNumber"]?.ToString() ?? string.Empty,
-                Address = reader["Address"]?.ToString() ?? string.Empty,
-                Email = reader["Email"]?.ToString() ?? string.Empty,
-                Phone = reader["Phone"]?.ToString() ?? string.Empty,
-                ProfilePicture = reader["ProfilePicture"]?.ToString() ?? string.Empty,
-
-                Gender = (reader["Gender"] != DBNull.Value)
-                                ? Convert.ToChar(reader["Gender"])
-                                : ' ',
-
-                DateOfBirth = (reader["DateOfBirth"] != DBNull.Value)
-                                ? Convert.ToDateTime(reader["DateOfBirth"])
-                                : DateTime.MinValue
-            };
-        }
-
         private static void LoggerDebugPersonInfoRetrieved(clsPersonInfo personInfo)
         {
             logger.Debug("Person Info Retrieved: Name: {FullName}, National No: {NationalNo}, DOB: {DateOfBirth}, Phone: {Phone}, Email: {Email}, Gender: {Gender}, CountryID: {CountryID}, Has Profile Picture: {HasProfilePicture}",
@@ -486,6 +463,45 @@ namespace DVLDDataAccessLayer.Person
                 personInfo.Gender,
                 !string.IsNullOrEmpty(personInfo.ProfilePicture)
             );
+        }
+
+        private static bool IsPersonExistsByField(string fieldName, object value)
+        {
+            if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
+            {
+                logger.Debug($"Invalid value for field '{fieldName}': {value}");
+                return false;
+            }
+
+            logger.Debug($"Checking if person exists where {fieldName} = {value}");
+
+            string query = $"SELECT COUNT(1) FROM Persons WHERE {fieldName} = @value";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@value", value);
+
+                    connection.Open();
+                    int count = (int)command.ExecuteScalar();
+                    bool exists = count > 0;
+
+                    logger.Debug($"Existence check result for {fieldName} = {value}: {(exists ? "Exists" : "Does Not Exist")}");
+                    return exists;
+                }
+            }
+            catch (SqlException ex)
+            {
+                logger.Error($"SQL Error during existence check for {fieldName} = {value}. Message: {ex.Message}", ex);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"General error during existence check for {fieldName} = {value}. Message: {ex.Message}", ex);
+                return false;
+            }
         }
     }
 }

@@ -47,16 +47,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsDataAccessSettings.cs" />
+    <Compile Include="EntityMapperUtilities\clsEntityMapper.cs" />
+    <Compile Include="MessageContainer\Message.cs" />
+    <Compile Include="PersonAddresses\Cities\clsCityInfo.cs" />
+    <Compile Include="PersonAddresses\Cities\clsCityDataAccess.cs" />
+    <Compile Include="PersonAddresses\Cities\clsCityInfoResult.cs" />
     <Compile Include="PersonAddresses\clsPersonAddresseDataAccess.cs" />
     <Compile Include="PersonAddresses\clsPersonAddresseInfo.cs" />
     <Compile Include="PersonAddresses\clsPersonAddresseResult.cs" />
+    <Compile Include="PersonAddresses\Countries\clsCountryDataAccess.cs" />
+    <Compile Include="PersonAddresses\Countries\clsCountryInfo.cs" />
+    <Compile Include="PersonAddresses\Countries\clsCountryInfoResult.cs" />
+    <Compile Include="PersonAddresses\Governorates\clsGovernorateDataAccess.cs" />
+    <Compile Include="PersonAddresses\Governorates\clsGovernorateInfo.cs" />
+    <Compile Include="PersonAddresses\Governorates\clsGovernorateInfoResult.cs" />
     <Compile Include="Person\clsPersonDataAccess.cs" />
     <Compile Include="Person\clsPersonInfo.cs" />
-    <Compile Include="Person\PersonInfoResult.cs" />
+    <Compile Include="Person\clsPersonInfoResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Result Helper\clsResultBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

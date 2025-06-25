@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             this.dGVListPersons = new System.Windows.Forms.DataGridView();
+            this.btnAddNewPerson = new System.Windows.Forms.Button();
+            this.labTotalRecords = new System.Windows.Forms.Label();
+            this.labTotalRecordsValue = new System.Windows.Forms.Label();
+            this.ctrHeaderTitleControl1 = new DVLDPresentationLayer.Controls.ctrHeaderTitleControl();
+            this.ctrButtonClose1 = new DVLDPresentationLayer.Controls.ctrButtonClose();
+            this.ctrPersonFilterBy1 = new DVLDPresentationLayer.Persons.Controls.ctrPersonFilterBy();
             this.PersonID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NationalID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,15 +43,11 @@
             this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Gender = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nationality = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Phone = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnAddNewPerson = new System.Windows.Forms.Button();
-            this.labTotalRecords = new System.Windows.Forms.Label();
-            this.labTotalRecordsValue = new System.Windows.Forms.Label();
-            this.ctrPersonFilterBy1 = new DVLDPresentationLayer.Persons.Controls.ctrPersonFilterBy();
-            this.ctrButtonClose1 = new DVLDPresentationLayer.Controls.ctrButtonClose();
-            this.ctrHeaderTitleControl1 = new DVLDPresentationLayer.Controls.ctrHeaderTitleControl();
+            this.Nationality = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Governorate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.City = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dGVListPersons)).BeginInit();
             this.SuspendLayout();
             // 
@@ -63,91 +65,17 @@
             this.LastName,
             this.Gender,
             this.DateOfBirth,
-            this.Nationality,
             this.Phone,
-            this.Email});
+            this.Email,
+            this.Nationality,
+            this.Governorate,
+            this.City});
             this.dGVListPersons.Cursor = System.Windows.Forms.Cursors.Hand;
             this.dGVListPersons.Location = new System.Drawing.Point(15, 130);
             this.dGVListPersons.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.dGVListPersons.Name = "dGVListPersons";
             this.dGVListPersons.Size = new System.Drawing.Size(1268, 397);
             this.dGVListPersons.TabIndex = 1;
-            // 
-            // PersonID
-            // 
-            this.PersonID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.PersonID.HeaderText = "Person ID";
-            this.PersonID.Name = "PersonID";
-            this.PersonID.Width = 108;
-            // 
-            // NationalID
-            // 
-            this.NationalID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.NationalID.HeaderText = "National ID";
-            this.NationalID.Name = "NationalID";
-            this.NationalID.Width = 116;
-            // 
-            // FirstName
-            // 
-            this.FirstName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.FirstName.HeaderText = "First Name";
-            this.FirstName.Name = "FirstName";
-            this.FirstName.Width = 116;
-            // 
-            // SecondName
-            // 
-            this.SecondName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.SecondName.HeaderText = "Second Name";
-            this.SecondName.Name = "SecondName";
-            this.SecondName.Width = 139;
-            // 
-            // ThirdName
-            // 
-            this.ThirdName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.ThirdName.HeaderText = "Third Name";
-            this.ThirdName.Name = "ThirdName";
-            this.ThirdName.Width = 120;
-            // 
-            // LastName
-            // 
-            this.LastName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.LastName.HeaderText = "Last Name";
-            this.LastName.Name = "LastName";
-            this.LastName.Width = 114;
-            // 
-            // Gender
-            // 
-            this.Gender.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Gender.HeaderText = "Gender";
-            this.Gender.Name = "Gender";
-            this.Gender.Width = 88;
-            // 
-            // DateOfBirth
-            // 
-            this.DateOfBirth.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.DateOfBirth.HeaderText = "Date Of Birth";
-            this.DateOfBirth.Name = "DateOfBirth";
-            this.DateOfBirth.Width = 131;
-            // 
-            // Nationality
-            // 
-            this.Nationality.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Nationality.HeaderText = "Nationality";
-            this.Nationality.Name = "Nationality";
-            this.Nationality.Width = 112;
-            // 
-            // Phone
-            // 
-            this.Phone.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Phone.HeaderText = "Phone";
-            this.Phone.Name = "Phone";
-            this.Phone.Width = 81;
-            // 
-            // Email
-            // 
-            this.Email.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Email.HeaderText = "Email";
-            this.Email.Name = "Email";
             // 
             // btnAddNewPerson
             // 
@@ -183,12 +111,13 @@
             this.labTotalRecordsValue.TabIndex = 6;
             this.labTotalRecordsValue.Text = "???";
             // 
-            // ctrPersonFilterBy1
+            // ctrHeaderTitleControl1
             // 
-            this.ctrPersonFilterBy1.Location = new System.Drawing.Point(15, 83);
-            this.ctrPersonFilterBy1.Name = "ctrPersonFilterBy1";
-            this.ctrPersonFilterBy1.Size = new System.Drawing.Size(602, 39);
-            this.ctrPersonFilterBy1.TabIndex = 11;
+            this.ctrHeaderTitleControl1.Location = new System.Drawing.Point(484, 12);
+            this.ctrHeaderTitleControl1.Name = "ctrHeaderTitleControl1";
+            this.ctrHeaderTitleControl1.Size = new System.Drawing.Size(330, 65);
+            this.ctrHeaderTitleControl1.TabIndex = 13;
+            this.ctrHeaderTitleControl1.Title = "Manage Persons";
             // 
             // ctrButtonClose1
             // 
@@ -199,13 +128,102 @@
             this.ctrButtonClose1.Size = new System.Drawing.Size(78, 29);
             this.ctrButtonClose1.TabIndex = 12;
             // 
-            // ctrHeaderTitleControl1
+            // ctrPersonFilterBy1
             // 
-            this.ctrHeaderTitleControl1.Location = new System.Drawing.Point(484, 12);
-            this.ctrHeaderTitleControl1.Name = "ctrHeaderTitleControl1";
-            this.ctrHeaderTitleControl1.Size = new System.Drawing.Size(330, 65);
-            this.ctrHeaderTitleControl1.TabIndex = 13;
-            this.ctrHeaderTitleControl1.Title = "Manage Persons";
+            this.ctrPersonFilterBy1.Location = new System.Drawing.Point(15, 83);
+            this.ctrPersonFilterBy1.Name = "ctrPersonFilterBy1";
+            this.ctrPersonFilterBy1.Size = new System.Drawing.Size(602, 39);
+            this.ctrPersonFilterBy1.TabIndex = 11;
+            // 
+            // PersonID
+            // 
+            this.PersonID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.PersonID.HeaderText = "ID";
+            this.PersonID.Name = "PersonID";
+            this.PersonID.Width = 49;
+            // 
+            // NationalID
+            // 
+            this.NationalID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.NationalID.HeaderText = "National NO";
+            this.NationalID.Name = "NationalID";
+            this.NationalID.Width = 125;
+            // 
+            // FirstName
+            // 
+            this.FirstName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.FirstName.HeaderText = "F.Name";
+            this.FirstName.Name = "FirstName";
+            this.FirstName.Width = 92;
+            // 
+            // SecondName
+            // 
+            this.SecondName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.SecondName.HeaderText = "S.Name";
+            this.SecondName.Name = "SecondName";
+            this.SecondName.Width = 93;
+            // 
+            // ThirdName
+            // 
+            this.ThirdName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.ThirdName.HeaderText = "T.Name";
+            this.ThirdName.Name = "ThirdName";
+            this.ThirdName.Width = 92;
+            // 
+            // LastName
+            // 
+            this.LastName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.LastName.HeaderText = "L.Name";
+            this.LastName.Name = "LastName";
+            this.LastName.Width = 91;
+            // 
+            // Gender
+            // 
+            this.Gender.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Gender.HeaderText = "Gender";
+            this.Gender.Name = "Gender";
+            this.Gender.Width = 88;
+            // 
+            // DateOfBirth
+            // 
+            this.DateOfBirth.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.DateOfBirth.HeaderText = "Date Of Birth";
+            this.DateOfBirth.Name = "DateOfBirth";
+            this.DateOfBirth.Width = 131;
+            // 
+            // Phone
+            // 
+            this.Phone.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Phone.HeaderText = "Phone";
+            this.Phone.Name = "Phone";
+            this.Phone.Width = 81;
+            // 
+            // Email
+            // 
+            this.Email.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Email.HeaderText = "Email";
+            this.Email.Name = "Email";
+            // 
+            // Nationality
+            // 
+            this.Nationality.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Nationality.HeaderText = "Country";
+            this.Nationality.Name = "Nationality";
+            this.Nationality.Width = 92;
+            // 
+            // Governorate
+            // 
+            this.Governorate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Governorate.HeaderText = "Governorate";
+            this.Governorate.Name = "Governorate";
+            this.Governorate.Width = 127;
+            // 
+            // City
+            // 
+            this.City.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.City.HeaderText = "City";
+            this.City.Name = "City";
+            this.City.Width = 62;
             // 
             // frmListPersons
             // 
@@ -235,6 +253,9 @@
         private System.Windows.Forms.Button btnAddNewPerson;
         private System.Windows.Forms.Label labTotalRecords;
         private System.Windows.Forms.Label labTotalRecordsValue;
+        private Controls.ctrPersonFilterBy ctrPersonFilterBy1;
+        private DVLDPresentationLayer.Controls.ctrButtonClose ctrButtonClose1;
+        private DVLDPresentationLayer.Controls.ctrHeaderTitleControl ctrHeaderTitleControl1;
         private System.Windows.Forms.DataGridViewTextBoxColumn PersonID;
         private System.Windows.Forms.DataGridViewTextBoxColumn NationalID;
         private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
@@ -243,11 +264,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn LastName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Gender;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateOfBirth;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Nationality;
         private System.Windows.Forms.DataGridViewTextBoxColumn Phone;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;
-        private Controls.ctrPersonFilterBy ctrPersonFilterBy1;
-        private DVLDPresentationLayer.Controls.ctrButtonClose ctrButtonClose1;
-        private DVLDPresentationLayer.Controls.ctrHeaderTitleControl ctrHeaderTitleControl1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Nationality;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Governorate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn City;
     }
 }

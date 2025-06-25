@@ -1,4 +1,8 @@
-﻿using System;
+﻿using DVLDBusinessLayer.PersonAddresses;
+using DVLDDataAccessLayer.PersonAddresses.Cities;
+using DVLDDataAccessLayer.PersonAddresses.Countries;
+using DVLDDataAccessLayer.PersonAddresses.Governorates;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +14,9 @@ namespace DVLDDataAccessLayer.PersonAddresses
     {
         public int PersonAddresseID { get; set; }
         public int PersonID { get; set; }
-        public int CountryID { get; set; }
-        public int GovernorateID { get; set; }
-        public int CityID { get; set; }
+        public clsCountryInfo Country { get; set; }
+        public clsGovernorateInfo Governorate { get; set; }
+        public clsCityInfo City { get; set; }
         public string BuildNo { get; set; }
         public string Street { get; set; }
 

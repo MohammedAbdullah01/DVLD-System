@@ -1,6 +1,7 @@
 ﻿using DVLDBusinessLayer.CommonValidators;
 using DVLDBusinessLayer.Interface;
 using DVLDBusinessLayer.Validator;
+using DVLDDataAccessLayer.Person;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DVLDBusinessLayer.Person.Validator
 {
-    internal class PersonValidator : IValidator<clsPerson>
+    public class PersonValidator : IValidator<clsPerson>
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         public ValidationResult Validate(clsPerson entity)
@@ -58,6 +59,47 @@ namespace DVLDBusinessLayer.Person.Validator
                     $"Errors: {string.Join(", ", result.Errors)}");
 
             return result;
+        }
+
+        private void ValidateNationalNumberUniqueness(clsPerson person, ValidationResult result)
+        {
+            if(person.Mode == clsPerson.enMode.AddNew && 
+                clsPersonDataAccess.IsPersonExistsNationalNumber(person.NationalNo))
+            {
+                result.AddErrors("National Number already exists");
+
+                _logger.Warn($"Duplicate national number registration attempted. " +
+                    $"NationalNo: {person.NationalNo}");
+            }
+
+            if (person.Mode == clsPerson.enMode.Update)
+            {
+                clsPerson existingPerson = clsPerson.Find(person.NationalNo);
+                if (existingPerson != null && existingPerson.PersonID != person.PersonID)
+                {
+                    result.AddErrors("National Number already exists for another person");
+
+                    _logger.Warn($"National number conflict during update. PersonID: " +
+                        $"{person.PersonID}, NationalNo: {person.NationalNo}, " +
+                        $"ConflictingPersonID: {existingPerson.PersonID}");
+                }
+            }
+        }
+
+        private void ValidatePhoneUniqueness(clsPerson person , ValidationResult result)
+        {
+            if (string.IsNullOrWhiteSpace(person.Phone))
+                return;
+
+            if(person.Mode == clsPerson.enMode.AddNew && 
+                clsPersonDataAccess.IsPersonExistsPhone(person.Phone))
+            {
+                result.AddErrors("Phone number already exists");
+
+                _logger.Warn($"Duplicate phone number registration attempted. Phone: {person.Phone}");
+            }
+
+
         }
     }
 }

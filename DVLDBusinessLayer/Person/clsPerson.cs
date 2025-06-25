@@ -65,7 +65,7 @@ namespace DVLDBusinessLayer.Person
 
             try
             {
-                PersonInfoResult result = clsPersonDataAccess.GetPersonInfoByID(personID);
+                clsPersonInfoResult result = clsPersonDataAccess.GetPersonInfoByID(personID);
 
                 if (result.Found && result != null)
                 {
@@ -97,7 +97,7 @@ namespace DVLDBusinessLayer.Person
 
             try
             {
-                PersonInfoResult result = clsPersonDataAccess.GetPersonInfoByNationalNo(nationalNo);
+                clsPersonInfoResult result = clsPersonDataAccess.GetPersonInfoByNationalNo(nationalNo);
 
                 if (result.Found && result != null)
                 {

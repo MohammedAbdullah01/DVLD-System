@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DVLDDataAccessLayer.PersonAddresses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,7 @@ namespace DVLDDataAccessLayer.Person
         public string Email { get; set; }
         public char Gender { get; set; }
         public string ProfilePicture { get; set; }
+
+        public clsPersonAddresseInfo PersonAddresseInfo { get; set; }
     }
 }

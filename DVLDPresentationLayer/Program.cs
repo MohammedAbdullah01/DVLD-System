@@ -4,6 +4,7 @@ using DVLDPresentationLayer.Driver;
 using DVLDPresentationLayer.Persons;
 using DVLDPresentationLayer.User;
 using DVLDPresentationLayer.User.Controls;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,20 @@ namespace DVLDPresentationLayer
 {
     internal static class Program
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            logger.Info("Application started");
+
+            LogManager.Shutdown(); // optional but recommended
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
-            //Application.Run(new frmListPersons());
+            //Application.Run(new frmMain());
+            Application.Run(new frmListPersons());
             //Application.Run(new frmAddOrEditPerson());
             //Application.Run(new frmPersonDetails());
             //Application.Run(new frmListUser());
@@ -47,6 +52,8 @@ namespace DVLDPresentationLayer
             //Application.Run(new frmReleaseDetainedLicense());
             //Application.Run(new frmDetainLicense());
 
+            logger.Info("Application ended");
+            LogManager.Shutdown();
         }
     }
 }

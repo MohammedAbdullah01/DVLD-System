@@ -6,19 +6,27 @@
 
 	<targets>
 		<target name="logFileDebug" xsi:type="File"
-				fileName="logs/debug-${shortdate}.log"
+				fileName="${basedir}/logs/debug-${shortdate}.log"
+				keepFileOpen="false"
+				concurrentWrites="true"
 				layout="${longdate}|${uppercase:${level}}|${logger}|${message} ${exception:format=ToString}" />
 
 		<target name="logFileInfo" xsi:type="File"
-				fileName="logs/info-${shortdate}.log"
+				fileName="${basedir}/logs/info-${shortdate}.log"
+				keepFileOpen="false"
+				concurrentWrites="true"
 				layout="${longdate}|${uppercase:${level}}|${logger}|${message} ${exception:format=ToString}" />
 
 		<target name="logFileWarning" xsi:type="File"
-				fileName="logs/warning-${shortdate}.log"
+				fileName="${basedir}/logs/warning-${shortdate}.log"
+				keepFileOpen="false"
+				concurrentWrites="true"
 				layout="${longdate}|${uppercase:${level}}|${logger}|${message} ${exception:format=ToString}" />
 
 		<target name="logFileError" xsi:type="File"
-				fileName="logs/error-${shortdate}.log"
+				fileName="${basedir}/logs/error-${shortdate}.log"
+				keepFileOpen="false"
+				concurrentWrites="true"
 				layout="${longdate}|${uppercase:${level}}|${logger}|${message} ${exception:format=ToString}" />
 
 		<target name="logconsole" xsi:type="Console"
@@ -32,5 +40,4 @@
 		<logger name="*" minlevel="Error" writeTo="logFileError" />
 		<logger name="*" minlevel="Info" writeTo="logconsole" />
 	</rules>
-
 </nlog>

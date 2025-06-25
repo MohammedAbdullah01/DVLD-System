@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="clsUser.cs" />
     <Compile Include="clsDriver.cs" />
+    <Compile Include="PersonAddresses\clsCity.cs" />
+    <Compile Include="PersonAddresses\clsCountry.cs" />
+    <Compile Include="PersonAddresses\clsGovernorate.cs" />
     <Compile Include="Validator\CommonValidators\ValidationUtils.cs" />
     <Compile Include="Validator\Interface\IValidator.cs" />
     <Compile Include="Person\clsPerson.cs" />
