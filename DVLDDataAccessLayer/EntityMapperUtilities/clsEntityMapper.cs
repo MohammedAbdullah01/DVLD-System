@@ -1,5 +1,7 @@
 ﻿using DVLDBusinessLayer.PersonAddresses;
 using DVLDDataAccessLayer.Person;
+using DVLDDataAccessLayer.PersonAddresses;
+using DVLDDataAccessLayer.PersonAddresses.Cities;
 using DVLDDataAccessLayer.PersonAddresses.Countries;
 using DVLDDataAccessLayer.PersonAddresses.Governorates;
 using NLog;
@@ -27,7 +29,7 @@ namespace DVLDDataAccessLayer.EntityMapperUtilities
             _logger.Debug("Mapping SqlDataReader to clsPersonInfo");
             return new clsPersonInfo()
             {
-                PersonID = (int)reader["PersonID"],
+                PersonID = (int)reader["id"],
                 FirstName = reader["FirstName"]?.ToString() ?? string.Empty,
                 FatherName = reader["FatherName"]?.ToString() ?? string.Empty,
                 MiddleName = reader["MiddleName"]?.ToString() ?? string.Empty,
@@ -44,7 +46,9 @@ namespace DVLDDataAccessLayer.EntityMapperUtilities
 
                 DateOfBirth = (reader["DateOfBirth"] != DBNull.Value)
                                 ? Convert.ToDateTime(reader["DateOfBirth"])
-                                : DateTime.MinValue
+                                : DateTime.MinValue,
+
+                PersonAddresseInfo = MapReaderToPersonAddress(reader)
             };
         }
 
@@ -98,6 +102,38 @@ namespace DVLDDataAccessLayer.EntityMapperUtilities
                 NameEN = reader["CountryNameEN"].ToString(),
                 NameAR = reader["CountryNameAR"].ToString()
             };
+        }
+
+        public static clsPersonAddressInfo MapReaderToPersonAddress(SqlDataReader reader)
+        {
+            if(reader == null || !reader.HasRows)
+            {
+                _logger.Warn("No data found in reader to map to PersonAddress Info");
+                return null;
+            }
+
+            _logger.Debug("Mapping SqlDataReader to PersonAddress Info");
+
+            clsCountryInfoResult countryInfoResult = clsCountryDataAccess.GetCountryByID(
+                Convert.ToInt32(reader["CountryId"]));
+
+            clsCityInfoResult clsCityInfoResult = clsCityDataAccess.GetCityByID(
+                Convert.ToInt32(reader["CityId"]));
+
+            clsGovernorateInfoResult governorateInfoResult = clsGovernorateDataAccess.GetGovernorateByID(
+                Convert.ToInt32(reader["GovernorateId"]));
+
+            return new clsPersonAddressInfo
+            {
+                Country = countryInfoResult.Found ? countryInfoResult.Country : null,
+                City = clsCityInfoResult.Found ? clsCityInfoResult.City : null,
+                Governorate = governorateInfoResult.Found ? governorateInfoResult.Governorate : null,
+                PersonAddresseID = (int)reader["PersonAddresseID"],
+                PersonID = (int)reader["PersonID"],
+                BuildNo = reader["BuildNo"]?.ToString() ?? string.Empty,
+                Street = reader["Street"]?.ToString() ?? string.Empty,
+            };
+
         }
     }
 }

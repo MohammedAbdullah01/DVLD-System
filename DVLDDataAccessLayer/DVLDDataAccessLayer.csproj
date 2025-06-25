@@ -52,9 +52,9 @@
     <Compile Include="PersonAddresses\Cities\clsCityInfo.cs" />
     <Compile Include="PersonAddresses\Cities\clsCityDataAccess.cs" />
     <Compile Include="PersonAddresses\Cities\clsCityInfoResult.cs" />
-    <Compile Include="PersonAddresses\clsPersonAddresseDataAccess.cs" />
-    <Compile Include="PersonAddresses\clsPersonAddresseInfo.cs" />
-    <Compile Include="PersonAddresses\clsPersonAddresseResult.cs" />
+    <Compile Include="PersonAddresses\clsPersonAddressDataAccess.cs" />
+    <Compile Include="PersonAddresses\clsPersonAddressInfo.cs" />
+    <Compile Include="PersonAddresses\clsPersonAddressResult.cs" />
     <Compile Include="PersonAddresses\Countries\clsCountryDataAccess.cs" />
     <Compile Include="PersonAddresses\Countries\clsCountryInfo.cs" />
     <Compile Include="PersonAddresses\Countries\clsCountryInfoResult.cs" />

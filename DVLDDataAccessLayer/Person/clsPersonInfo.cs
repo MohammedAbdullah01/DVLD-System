@@ -21,7 +21,6 @@ namespace DVLDDataAccessLayer.Person
         public string Email { get; set; }
         public char Gender { get; set; }
         public string ProfilePicture { get; set; }
-
-        public clsPersonAddresseInfo PersonAddresseInfo { get; set; }
+        public clsPersonAddressInfo PersonAddresseInfo { get; set; }
     }
 }

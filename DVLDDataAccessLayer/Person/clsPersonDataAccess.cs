@@ -13,34 +13,34 @@ namespace DVLDDataAccessLayer.Person
     public class clsPersonDataAccess
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
+        private static readonly Dictionary<string, string> AllowedFields = new Dictionary<string, string>()
+        {
+            { "id", "id" },
+            { "NationalNumber", "NationalNumber" },
+            { "Phone", "Phone" },
+            { "Email", "Email" }
+        };
         public static clsPersonInfoResult GetPersonInfoByID(int personID)
         {
             if (personID <= 0)
             {
                 logger.Warn($"Invalid PersonID provided: {personID}");
-                return new clsPersonInfoResult { Found = false };
+                return clsResultBuilder.BuildPersonResult(null , "Invalid PersonID provided: {personID}");
             }
 
             logger.Info($"Starting to Get Person Info By ID: {personID}");
 
             const string query = @"SELECT 
                                     P.*, 
-                                    Co.NameEn as CountriesName, Gov.NameEn as GovernorateName, 
-                                    Ci.NameEn as CityName,
-                                    Pa.BuildNo, Pa.Street
+                                    Pa.id as PersonAddresseID, Pa.PersonID, Pa.BuildNo, Pa.Street, 
+                                    Pa.CountryId, Pa.CityId, Pa.GovernorateId
+                                    
                                 FROM Persons P
 
                                 INNER JOIN PersonAddresses Pa
                                 ON P.id = Pa.PersonID
 
-                                INNER JOIN Countries Co
-                                ON Co.id = Pa.CountryId
-
-                                INNER JOIN Governorates Gov
-                                ON Gov.id = Pa.GovernorateId
-
-                                INNER JOIN Cities Ci
-                                ON Ci.id = Pa.CityId
                                 WHERE  P.id = @PersonID";
             try
             {
@@ -57,8 +57,6 @@ namespace DVLDDataAccessLayer.Person
                         {
                             clsPersonInfo personInfo = clsEntityMapper.MapReaderToPerson(reader);
 
-                            
-
                             LoggerDebugPersonInfoRetrieved(personInfo);
 
                             logger.Info($"Successfully retrieved person info for ID: {personID}");
@@ -67,6 +65,7 @@ namespace DVLDDataAccessLayer.Person
                                 $"Person found with ID: {personID}");
 
                         }
+
                         logger.Warn($"No person found with ID: {personID}");
 
                         return clsResultBuilder.BuildPersonResult(null, 
@@ -102,7 +101,16 @@ namespace DVLDDataAccessLayer.Person
 
 
             logger.Info($"Starting to Get Person Info By National Number: {nationalNo}");
-            const string query = "SELECT * FROM Persons WHERE NationalNumber = @NationalNo";
+
+            const string query = @"
+                SELECT P.*, 
+                       Pa.id as PersonAddresseID, 
+                       Pa.BuildNo, Pa.Street, 
+                       Pa.CountryId, Pa.CityId, Pa.GovernorateId
+                FROM Persons P
+                INNER JOIN PersonAddresses Pa 
+                ON P.id = Pa.PersonID
+                WHERE P.NationalNumber = @NationalNo";
 
             try
             {
@@ -110,8 +118,10 @@ namespace DVLDDataAccessLayer.Person
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@NationalNo", nationalNo);
+
                     connection.Open();
                     logger.Debug($"Connection to database opened successfully for National Number: {nationalNo}");
+
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -154,65 +164,109 @@ namespace DVLDDataAccessLayer.Person
 
         public static clsPersonInfoResult AddNewPerson(clsPersonInfo personInfo)
         {
+            if (personInfo == null)
+            {
+                logger.Warn("PersonInfo object is null in AddNewPerson");
+                return clsResultBuilder.BuildPersonResult(null, "PersonInfo object cannot be null");
+            }
+
+            if (IsPersonExistsNationalNumber(personInfo.NationalNo))
+            {
+                logger.Warn($"Person with National Number {personInfo.NationalNo} already exists");
+                return clsResultBuilder.BuildPersonResult(null, 
+                    $"Person with National Number {personInfo.NationalNo} already exists");
+            }
+
+            if (IsPersonExistsPhone(personInfo.Phone))
+            {
+                logger.Warn($"Person with Phone {personInfo.Phone} already exists");
+                return clsResultBuilder.BuildPersonResult(null,
+                    $"Person with Phone {personInfo.Phone} already exists");
+            }
+
+            if (IsPersonExistsEmail(personInfo.Email))
+            {
+                logger.Warn($"Person with Email {personInfo.Email} already exists");
+                return clsResultBuilder.BuildPersonResult(null,
+                    $"Person with Email {personInfo.Email} already exists");
+            }
+
             const string query = @"
-                    INSERT INTO Persons (
-                        NationalNumber, FirstName, FatherName, MiddleName, LastName, DateOfBirth, 
-                        Address, Phone, Email, Gender, ProfilePicture 
-                    )   
-                    VALUES (
-                        @NationalNumber , @FirstName, @FatherName, @MiddleName, @LastName, 
-                        @DateOfBirth, @Address, @Phone, @Email, @Gender, @ProfilePicture
-                    ); 
-                    SELECT SCOPE_IDENTITY();";
+        INSERT INTO Persons (
+            NationalNumber, FirstName, FatherName, MiddleName, LastName, DateOfBirth, 
+            Address, Phone, Email, Gender, ProfilePicture 
+        )   
+        VALUES (
+            @NationalNumber, @FirstName, @FatherName, @MiddleName, @LastName, 
+            @DateOfBirth, @Address, @Phone, @Email, @Gender, @ProfilePicture
+        ); 
+        SELECT SCOPE_IDENTITY();";
 
-            try
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             {
-                using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
-                using (SqlCommand command = new SqlCommand(query, connection))
+                try
                 {
-                    AddPersonParameters(command, personInfo);
-
                     connection.Open();
-
-                    object result = command.ExecuteScalar();
-
-                    if (result != null && int.TryParse(result?.ToString(), out int insertedID))
+                    using (SqlTransaction transaction = connection.BeginTransaction())
                     {
-                        personInfo.PersonID = insertedID;
+                        try
+                        {
+                            using (SqlCommand command = new SqlCommand(query, connection, transaction))
+                            {
+                                AddPersonParameters(command, personInfo);
 
-                        clsPersonAddresseDataAccess.AddNewPersonAddresse( personInfo.PersonAddresseInfo);
+                                object result = command.ExecuteScalar();
 
-                        logger.Info($"Person added successfully with ID: {insertedID}," +
-                                    $" Name: {personInfo.FirstName} {personInfo.LastName}");
+                                if (result != null && int.TryParse(result.ToString(), out int insertedID))
+                                {
+                                    personInfo.PersonID = insertedID;
 
-                        return clsResultBuilder.BuildPersonResult(personInfo, 
-                            $"New person added with ID: {insertedID}");
+                                    // Call to add address
+                                    personInfo.PersonAddresseInfo =
+                                        clsPersonAddressDataAccess.AddNewPersonAddress(
+                                        personInfo.PersonAddresseInfo).PersonAddresse;
+
+                                    logger.Info($"Person added successfully with ID: {insertedID}," +
+                                                $" Name: {personInfo.FirstName} {personInfo.LastName}");
+
+                                    transaction.Commit();
+
+                                    return clsResultBuilder.BuildPersonResult(personInfo,
+                                        $"New person added with ID: {insertedID}");
+                                }
+
+                                transaction.Rollback();
+                                logger.Warn($"Failed to get inserted PersonID for person: " +
+                                    $"{personInfo.FirstName} {personInfo.LastName}");
+
+                                return clsResultBuilder.BuildPersonResult(null,
+                                    "Failed to retrieve new person ID");
+                            }
+                        }
+                        catch (SqlException sqlEx)
+                        {
+                            transaction.Rollback();
+                            logger.Error($"SQL Error adding new person: {personInfo.FirstName} {personInfo.LastName}. " +
+                                         $"Exception: {sqlEx.Message}", sqlEx);
+                            return clsResultBuilder.BuildPersonResult(null,
+                                $"Database error: {sqlEx.Message}");
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            logger.Error($"General error adding new person: {personInfo.FirstName} {personInfo.LastName}. " +
+                                         $"Exception: {ex.Message}", ex);
+                            return clsResultBuilder.BuildPersonResult(null,
+                                $"Unexpected error: {ex.Message}");
+                        }
                     }
-
-                    logger.Warn($"Failed to get inserted PersonID for person: " +
-                        $"{ personInfo.FirstName} {personInfo.LastName}");
-
-                    return clsResultBuilder.BuildPersonResult(null, 
-                        "Failed to retrieve new person ID");
                 }
-            }
-            catch (SqlException sqlEx)
-            {
-                logger.Error($"SQL Error adding new person: " +
-                    $"{personInfo.FirstName} {personInfo.LastName}. " +
-                    $"Exception: {sqlEx.Message}", sqlEx);
-
-                return clsResultBuilder.BuildPersonResult(null, 
-                            $"Database error: {sqlEx.Message}");
-            }
-            catch (Exception ex)
-            {
-                logger.Error($"General error adding new person: " +
-                    $"{personInfo.FirstName} {personInfo.LastName}. " +
-                    $"Exception: {ex.Message}", ex);
-
-                return clsResultBuilder.BuildPersonResult(null, 
-                            $"Unexpected error: {ex.Message}");
+                catch (Exception ex)
+                {
+                    logger.Error($"Failed to open database connection. Exception: {ex.Message}", ex);
+                    return clsResultBuilder.BuildPersonResult(null,
+                        $"Connection error: {ex.Message}");
+                }
             }
         }
 
@@ -247,7 +301,7 @@ namespace DVLDDataAccessLayer.Person
                     Email = @Email, 
                     Gender = @Gender, 
                     ProfilePicture = @ProfilePicture 
-                WHERE PersonID = @PersonID;";
+                WHERE id = @PersonID;";
 
             try
             {
@@ -264,11 +318,12 @@ namespace DVLDDataAccessLayer.Person
 
                     if (rowAffected > 0) 
                     {
-                        logger.Info($"Person updated successfully. ID: {personInfo.PersonID}, " +
-                            $"Name: {personInfo.FirstName} {personInfo.LastName}");
+                        personInfo.PersonAddresseInfo = 
+                            clsPersonAddressDataAccess.UpdatePersonAddresse(
+                            personInfo.PersonAddresseInfo).PersonAddresse;
 
-                        clsPersonAddresseDataAccess.
-                            UpdatePersonAddresse(personInfo.PersonAddresseInfo);
+                        logger.Info($"Person updated successfully. ID: {personInfo.PersonID}, " +
+                            $"NationalNumber ={ personInfo.NationalNo}");
 
                         return clsResultBuilder.BuildPersonResult(personInfo, 
                             $"Person updated successfully with ID: {personInfo.PersonID}");
@@ -309,7 +364,7 @@ namespace DVLDDataAccessLayer.Person
                 return false;
             }
 
-            const string query = "DELETE FROM Persons WHERE personID = @PersonID";
+            const string query = "DELETE FROM Persons WHERE id = @PersonID";
 
             try
             {
@@ -318,8 +373,16 @@ namespace DVLDDataAccessLayer.Person
                 {
                     command.Parameters.AddWithValue("@PersonID", personID);
 
-                    connection.Open();
                     logger.Debug($"Connection opened for deleting person ID: {personID}");
+                    connection.Open();
+
+                    logger.Info($"Attempting to delete person Address with ID: {personID}");
+
+                    if(!clsPersonAddressDataAccess.DeletePersonAddresseByPersonID(personID))
+                    {
+                        logger.Warn($"Failed to delete person address for PersonID: {personID}");
+                        return false;
+                    }
 
                     int rowAffected = command.ExecuteNonQuery();
 
@@ -328,11 +391,8 @@ namespace DVLDDataAccessLayer.Person
                         logger.Info($"Person deleted successfully. ID: {personID}");
                         return true;
                     }
-                    else
-                    {
-                        logger.Warn($"No rows affected during deletion for PersonID: {personID}");
-                        return false;
-                    }
+                    logger.Warn($"No rows affected during deletion for PersonID: {personID}");
+                    return false;
                 }
             }
             catch (SqlException sqlEx)
@@ -467,6 +527,12 @@ namespace DVLDDataAccessLayer.Person
 
         private static bool IsPersonExistsByField(string fieldName, object value)
         {
+            if(!AllowedFields.ContainsKey(fieldName))
+            {
+                logger.Debug($"Field '{fieldName}' is not allowed for existence check.");
+                return false;
+            }
+
             if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
             {
                 logger.Debug($"Invalid value for field '{fieldName}': {value}");
@@ -475,7 +541,7 @@ namespace DVLDDataAccessLayer.Person
 
             logger.Debug($"Checking if person exists where {fieldName} = {value}");
 
-            string query = $"SELECT COUNT(1) FROM Persons WHERE {fieldName} = @value";
+            string query = $"SELECT COUNT(1) FROM Persons WHERE {AllowedFields[fieldName]} = @value";
 
             try
             {
