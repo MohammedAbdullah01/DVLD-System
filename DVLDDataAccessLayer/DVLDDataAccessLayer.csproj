@@ -65,7 +65,7 @@
     <Compile Include="Person\clsPersonInfo.cs" />
     <Compile Include="Person\clsPersonInfoResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Result Helper\clsResultBuilder.cs" />
+    <Compile Include="ResultHelper\clsResultBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

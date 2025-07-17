@@ -112,22 +112,33 @@ namespace DVLDDataAccessLayer.EntityMapperUtilities
                 return null;
             }
 
-            _logger.Debug("Mapping SqlDataReader to PersonAddress Info");
+            clsCountryInfo countryInfo = new clsCountryInfo
+            { 
+                CountryID = Convert.ToInt32(reader["CountryId"]),
+                NameEN =  reader["CountryName"].ToString(),
+                NameAR = reader["CountryNameAr"].ToString() 
+            };
 
-            clsCountryInfoResult countryInfoResult = clsCountryDataAccess.GetCountryByID(
-                Convert.ToInt32(reader["CountryId"]));
+            clsGovernorateInfo governorateInfo = new clsGovernorateInfo
+            {
+                GovernorateID = Convert.ToInt32(reader["GovernorateId"]),
+                GovernorateNameEN = reader["GovernorateName"].ToString(),
+                GovernorateNameAR = reader["GovernorateNameAr"].ToString()
+            };
 
-            clsCityInfoResult clsCityInfoResult = clsCityDataAccess.GetCityByID(
-                Convert.ToInt32(reader["CityId"]));
 
-            clsGovernorateInfoResult governorateInfoResult = clsGovernorateDataAccess.GetGovernorateByID(
-                Convert.ToInt32(reader["GovernorateId"]));
+            clsCityInfo cityInfo = new clsCityInfo
+            {
+                CityID = Convert.ToInt32(reader["CityId"]),
+                NameEN = reader["CityName"].ToString(),
+                NameAR = reader["CityNameAr"].ToString()
+            };
 
             return new clsPersonAddressInfo
             {
-                Country = countryInfoResult.Found ? countryInfoResult.Country : null,
-                City = clsCityInfoResult.Found ? clsCityInfoResult.City : null,
-                Governorate = governorateInfoResult.Found ? governorateInfoResult.Governorate : null,
+                Country = countryInfo,
+                Governorate = governorateInfo,
+                City = cityInfo,
                 PersonAddresseID = (int)reader["PersonAddresseID"],
                 PersonID = (int)reader["PersonID"],
                 BuildNo = reader["BuildNo"]?.ToString() ?? string.Empty,

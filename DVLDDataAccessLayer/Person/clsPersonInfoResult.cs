@@ -11,6 +11,6 @@ namespace DVLDDataAccessLayer.Person
     {
         public bool Found { get; set; }
         public clsPersonInfo Person { get; set; }
-        public Message MessageContainer { get; set; }
+        public Message GetMessage { get; set; }
     }
 }

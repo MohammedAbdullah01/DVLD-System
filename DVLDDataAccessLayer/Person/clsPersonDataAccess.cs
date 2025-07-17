@@ -33,13 +33,28 @@ namespace DVLDDataAccessLayer.Person
 
             const string query = @"SELECT 
                                     P.*, 
-                                    Pa.id as PersonAddresseID, Pa.PersonID, Pa.BuildNo, Pa.Street, 
-                                    Pa.CountryId, Pa.CityId, Pa.GovernorateId
-                                    
+                                    Pa.id as PersonAddresseID, Pa.BuildNo, Pa.Street, 
+                                    Pa.CountryId, Pa.CityId, Pa.GovernorateId,
+                                    Co.NameEn as CountryName,   
+                                    Co.NameAr as CountryNameAr,
+                                    Gv.NameEn as GovernorateName,
+                                    Gv.NameAr as GovernorateNameAr,
+                                    Ci.NameEn as CityName,
+                                    Ci.NameAr as CityNameAr
+
                                 FROM Persons P
 
                                 INNER JOIN PersonAddresses Pa
                                 ON P.id = Pa.PersonID
+
+                                INNER JOIN Countries Co
+                                ON Co.id = Pa.CountryId
+
+                                INNER JOIN Governorates Gv
+                                ON Gv.id = Pa.GovernorateId
+
+                                INNER JOIN Cities Ci
+                                ON Ci.id = Pa.CityId       
 
                                 WHERE  P.id = @PersonID";
             try
@@ -63,7 +78,6 @@ namespace DVLDDataAccessLayer.Person
 
                             return clsResultBuilder.BuildPersonResult(personInfo, 
                                 $"Person found with ID: {personID}");
-
                         }
 
                         logger.Warn($"No person found with ID: {personID}");
@@ -102,15 +116,26 @@ namespace DVLDDataAccessLayer.Person
 
             logger.Info($"Starting to Get Person Info By National Number: {nationalNo}");
 
-            const string query = @"
-                SELECT P.*, 
-                       Pa.id as PersonAddresseID, 
-                       Pa.BuildNo, Pa.Street, 
-                       Pa.CountryId, Pa.CityId, Pa.GovernorateId
-                FROM Persons P
-                INNER JOIN PersonAddresses Pa 
-                ON P.id = Pa.PersonID
-                WHERE P.NationalNumber = @NationalNo";
+            const string query = @"SELECT 
+                                    P.*, 
+                                    Pa.id as PersonAddresseID, Pa.BuildNo, Pa.Street, 
+                                    Pa.CountryId, Pa.CityId, Pa.GovernorateId,
+                                    Co.NameEn as CountryName,   
+                                    Co.NameAr as CountryNameAr,
+                                    Gv.NameEn as GovernorateName,
+                                    Gv.NameAr as GovernorateNameAr,
+                                    Ci.NameEn as CityName,
+                                    Ci.NameAr as CityNameAr
+                                FROM Persons P
+                                INNER JOIN PersonAddresses Pa
+                                ON P.id = Pa.PersonID
+                                INNER JOIN Countries Co
+                                ON Co.id = Pa.CountryId
+                                INNER JOIN Governorates Gv
+                                ON Gv.id = Pa.GovernorateId
+                                INNER JOIN Cities Ci
+                                ON Ci.id = Pa.CityId       
+                                WHERE  P.NationalNumber = @NationalNo";
 
             try
             {
@@ -191,16 +216,15 @@ namespace DVLDDataAccessLayer.Person
                     $"Person with Email {personInfo.Email} already exists");
             }
 
-            const string query = @"
-        INSERT INTO Persons (
-            NationalNumber, FirstName, FatherName, MiddleName, LastName, DateOfBirth, 
-            Address, Phone, Email, Gender, ProfilePicture 
-        )   
-        VALUES (
-            @NationalNumber, @FirstName, @FatherName, @MiddleName, @LastName, 
-            @DateOfBirth, @Address, @Phone, @Email, @Gender, @ProfilePicture
-        ); 
-        SELECT SCOPE_IDENTITY();";
+            const string query = @"INSERT INTO Persons (
+                                    NationalNumber, FirstName, FatherName, MiddleName, 
+                                    LastName, DateOfBirth, Address, Phone, Email, Gender, 
+                                    ProfilePicture)   
+                                VALUES (
+                                    @NationalNumber, @FirstName, @FatherName, @MiddleName,
+                                    @LastName, @DateOfBirth, @Address, @Phone, @Email, 
+                                    @Gender, @ProfilePicture ); 
+                                SELECT SCOPE_IDENTITY();";
 
             using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             {
@@ -221,10 +245,9 @@ namespace DVLDDataAccessLayer.Person
                                 {
                                     personInfo.PersonID = insertedID;
 
-                                    // Call to add address
                                     personInfo.PersonAddresseInfo =
                                         clsPersonAddressDataAccess.AddNewPersonAddress(
-                                        personInfo.PersonAddresseInfo).PersonAddresse;
+                                        personInfo.PersonAddresseInfo , connection).PersonAddresse;
 
                                     logger.Info($"Person added successfully with ID: {insertedID}," +
                                                 $" Name: {personInfo.FirstName} {personInfo.LastName}");
@@ -271,81 +294,84 @@ namespace DVLDDataAccessLayer.Person
         }
 
         public static clsPersonInfoResult UpdatePerson(clsPersonInfo personInfo)
-        { 
-            if(personInfo == null)
+        {
+            if (personInfo == null)
             {
                 logger.Warn("PersonInfo object is null in UpdatePerson");
-
-                return clsResultBuilder.BuildPersonResult(null, 
-                    "PersonInfo object cannot be null");
+                return clsResultBuilder.BuildPersonResult(null, "PersonInfo object cannot be null");
             }
 
             if (!IsPersonExistsID(personInfo.PersonID))
             {
                 logger.Warn($"Person with ID {personInfo.PersonID} does not exist");
-
-                return clsResultBuilder.BuildPersonResult(null, 
-                    $"Person with ID {personInfo.PersonID} does not exist");
+                return clsResultBuilder.BuildPersonResult(null, $"Person with ID {personInfo.PersonID} does not exist");
             }
 
             const string query = @"
-                UPDATE Persons SET 
-                    NationalNumber = @NationalNumber, 
-                    FirstName = @FirstName, 
-                    FatherName = @FatherName, 
-                    MiddleName = @MiddleName, 
-                    LastName = @LastName, 
-                    DateOfBirth = @DateOfBirth, 
-                    Address = @Address, 
-                    Phone = @Phone, 
-                    Email = @Email, 
-                    Gender = @Gender, 
-                    ProfilePicture = @ProfilePicture 
-                WHERE id = @PersonID;";
+        UPDATE Persons SET 
+            NationalNumber = @NationalNumber, 
+            FirstName = @FirstName, 
+            FatherName = @FatherName, 
+            MiddleName = @MiddleName, 
+            LastName = @LastName, 
+            DateOfBirth = @DateOfBirth, 
+            Address = @Address, 
+            Phone = @Phone, 
+            Email = @Email, 
+            Gender = @Gender, 
+            ProfilePicture = @ProfilePicture 
+        WHERE id = @PersonID;";
 
             try
             {
                 using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
-                using (SqlCommand command = new SqlCommand(query , connection))
                 {
-                    AddPersonParameters(command , personInfo);
-                    command.Parameters.AddWithValue("@PersonID", personInfo.PersonID);
-
                     connection.Open();
-                    logger.Debug($"Connection opened for updating person ID: {personInfo.PersonID}");
-
-                    int rowAffected = command.ExecuteNonQuery();
-
-                    if (rowAffected > 0) 
+                    using (SqlTransaction transaction = connection.BeginTransaction())
+                    using (SqlCommand command = new SqlCommand(query, connection, transaction))
                     {
-                        personInfo.PersonAddresseInfo = 
-                            clsPersonAddressDataAccess.UpdatePersonAddresse(
-                            personInfo.PersonAddresseInfo).PersonAddresse;
+                        AddPersonParameters(command, personInfo);
+                        command.Parameters.AddWithValue("@PersonID", personInfo.PersonID);
 
-                        logger.Info($"Person updated successfully. ID: {personInfo.PersonID}, " +
-                            $"NationalNumber ={ personInfo.NationalNo}");
+                        logger.Debug($"Transaction started for updating person ID: {personInfo.PersonID}");
 
-                        return clsResultBuilder.BuildPersonResult(personInfo, 
-                            $"Person updated successfully with ID: {personInfo.PersonID}");
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            try
+                            {
+                                personInfo.PersonAddresseInfo =
+                                    clsPersonAddressDataAccess.UpdatePersonAddresse(
+                                        personInfo.PersonAddresseInfo, connection).PersonAddresse;
+
+                                transaction.Commit();
+
+                                logger.Info($"Person updated successfully. ID: {personInfo.PersonID}, NationalNumber = {personInfo.NationalNo}");
+                                return clsResultBuilder.BuildPersonResult(personInfo, $"Person updated successfully with ID: {personInfo.PersonID}");
+                            }
+                            catch (Exception addrEx)
+                            {
+                                transaction.Rollback();
+                                logger.Error($"Address update failed for PersonID: {personInfo.PersonID}. Rolled back transaction. Exception: {addrEx.Message}", addrEx);
+                                return clsResultBuilder.BuildPersonResult(null, $"Address update failed: {addrEx.Message}");
+                            }
+                        }
+
+                        transaction.Rollback();
+                        logger.Warn($"No rows affected during update for PersonID: {personInfo.PersonID}");
+                        return clsResultBuilder.BuildPersonResult(null, "Update failed - no rows affected");
                     }
-
-                    logger.Warn($"No rows affected during update for PersonID: {personInfo.PersonID}");
-
-                    return clsResultBuilder.BuildPersonResult(null,
-                           "Update failed - no rows affected");
                 }
             }
-            catch(SqlException sqlEx)
+            catch (SqlException sqlEx)
             {
-                logger.Error($"SQL Error updating person ID: {personInfo.PersonID}. " +
-                    $"Exception: {sqlEx.Message}", sqlEx);
-
+                logger.Error($"SQL Error updating person ID: {personInfo.PersonID}. Exception: {sqlEx.Message}", sqlEx);
                 return clsResultBuilder.BuildPersonResult(null, $"Database error: {sqlEx.Message}");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error($"General error updating person ID: {personInfo.PersonID}. Exception: {ex.Message}", ex);
-
                 return clsResultBuilder.BuildPersonResult(null, $"Unexpected error: {ex.Message}");
             }
         }
@@ -439,29 +465,25 @@ namespace DVLDDataAccessLayer.Person
 
             List<clsPersonInfo> persons = new List<clsPersonInfo>();
             const string query = @"SELECT 
-                                        NationalNumber, FirstName, FatherName, MiddleName, LastName,  
-                                        DateOfBirth, Address, Phone, 
-                                    CASE 
-                                        WHEN Gender = 'M' THEN 'Male'
-                                        ELSE 'Female' 
-                                    END as GenderCaption, 
-                                        Email, ProfilePicture, PA.BuildNo, PA.Street,
-                                        CO.NameEn as CountryName, GOV.NameEn as GovernorateName, 
-                                        CI.NameEn as CityName
-                                    FROM Persons  
-
-                                    INNER JOIN PersonAddresses as PA
-                                    ON Persons.id = PA.PersonID  
-
-                                    INNER JOIN Countries as CO 
-                                    ON CO.id = PA.CountryId 
-
-                                    INNER JOIN Governorates as GOV 
-                                    ON GOV.id = PA.GovernorateId
-
-                                    INNER JOIN Cities as CI
-                                    ON CI.id = PA.CityId
-                                    ORDER BY FirstName";
+                                    P.*, 
+                                    Pa.id as PersonAddresseID, Pa.BuildNo, Pa.Street, 
+                                    Pa.CountryId, Pa.CityId, Pa.GovernorateId,
+                                    Co.NameEn as CountryName,   
+                                    Co.NameAr as CountryNameAr,
+                                    Gv.NameEn as GovernorateName,
+                                    Gv.NameAr as GovernorateNameAr,
+                                    Ci.NameEn as CityName,
+                                    Ci.NameAr as CityNameAr
+                                FROM Persons P
+                                INNER JOIN PersonAddresses Pa
+                                ON P.id = Pa.PersonID
+                                INNER JOIN Countries Co
+                                ON Co.id = Pa.CountryId
+                                INNER JOIN Governorates Gv
+                                ON Gv.id = Pa.GovernorateId
+                                INNER JOIN Cities Ci
+                                ON Ci.id = Pa.CityId
+                                ORDER BY FirstName";
 
             try
             {

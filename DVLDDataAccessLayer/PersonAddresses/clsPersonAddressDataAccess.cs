@@ -1,4 +1,5 @@
-﻿using DVLDDataAccessLayer.Person;
+﻿using DVLDBusinessLayer.PersonAddresses;
+using DVLDDataAccessLayer.Person;
 using DVLDDataAccessLayer.PersonAddresses.Cities;
 using DVLDDataAccessLayer.PersonAddresses.Countries;
 using DVLDDataAccessLayer.PersonAddresses.Governorates;
@@ -16,42 +17,24 @@ namespace DVLDDataAccessLayer.PersonAddresses
     public static class clsPersonAddressDataAccess
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        public static clsPersonAddressResult AddNewPersonAddress(clsPersonAddressInfo PersonAddresseInfo)
+        public static clsPersonAddressResult AddNewPersonAddress(clsPersonAddressInfo PersonAddresseInfo,
+            SqlConnection connection)
         {
             clsPersonAddressResult resultPersonAddresse = new clsPersonAddressResult();
 
-            if (PersonAddresseInfo.PersonID <= 0)
+            if (CheckPersonAddressInfo(PersonAddresseInfo) != null)
             {
-                _logger.Warn($"Invalid PersonAddresse for PersonID provided: {PersonAddresseInfo.PersonID}");
-                return clsResultBuilder.BuildPersonAddressResult(null, "Invalid PersonID");
+                return CheckPersonAddressInfo(PersonAddresseInfo);
             }
-
-            if (!clsPersonDataAccess.IsPersonExistsID(PersonAddresseInfo.PersonID))
-            {
-                _logger.Warn($"Person with ID {PersonAddresseInfo.PersonID} does not exist");
-                return clsResultBuilder.BuildPersonAddressResult(null, "Person does not exist");
-            }
-
-            if(!clsGovernorateDataAccess.IsGovernorateExists(PersonAddresseInfo.Governorate.GovernorateID)  
-                || !clsCountryDataAccess.IsCountryExists(PersonAddresseInfo.Country.CountryID)
-                || !clsCityDataAccess.IsCityExists(PersonAddresseInfo.City.CityID))
-            {
-                _logger.Warn($"Invalid Country, Governorate, or City for PersonID: {PersonAddresseInfo.PersonID}");
-                return clsResultBuilder.BuildPersonAddressResult(null,
-                    "Invalid Country, Governorate, or City information provided.");
-            }
-
             const string query = @"INSERT INTO PersonAddresses (
-                                            PersonID, CountryId, GovernorateId, CityId, 
-                                            BuildNo, Street) 
-                                        VALUES (@PersonID, @CountryId, @GovernorateId, 
-                                                @CityId, @BuildNo, @Street); 
-                                        SELECT SCOPE_IDENTITY();";
-
+                                        PersonID, CountryId, GovernorateId, CityId, 
+                                        BuildNo, Street) 
+                                    VALUES (@PersonID, @CountryId, @GovernorateId, 
+                                            @CityId, @BuildNo, @Street); 
+                                    SELECT SCOPE_IDENTITY();";
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     AddPersonAddresseParameters(command, PersonAddresseInfo.PersonID, PersonAddresseInfo);
@@ -92,62 +75,39 @@ namespace DVLDDataAccessLayer.PersonAddresses
             }
         }
 
-        public static clsPersonAddressResult UpdatePersonAddresse(clsPersonAddressInfo PersonAddresseInfo)
+        public static clsPersonAddressResult UpdatePersonAddresse(
+            clsPersonAddressInfo PersonAddresseInfo,
+            SqlConnection connection)
         {
             clsPersonAddressResult resultPersonAddresse = new clsPersonAddressResult();
 
-            if (PersonAddresseInfo == null || PersonAddresseInfo.PersonAddresseID <= 0)
+            if (CheckPersonAddressInfo(PersonAddresseInfo) != null)
             {
-                _logger.Warn("Person Addresse Info object is null in UpdatePerson");
+                return CheckPersonAddressInfo(PersonAddresseInfo);
+            }
 
-                return clsResultBuilder.BuildPersonAddressResult(null, 
+            if (PersonAddresseInfo.PersonAddresseID <= 0)
+            {
+                _logger.Warn("Invalid Person Addresse ID provided for update");
+
+                return clsResultBuilder.BuildPersonAddressResult(null,
                     "Invalid Person Addresse information provided");
             }
 
-            if (PersonAddresseInfo.PersonID <= 0)
-            {
-                _logger.Warn($"Invalid PersonID provided for update: {PersonAddresseInfo.PersonID}");
-
-                return clsResultBuilder.BuildPersonAddressResult(null, 
-                    "Invalid PersonID provided for update");
-            }
-
-            
-
-            if (!clsPersonDataAccess.IsPersonExistsID(PersonAddresseInfo.PersonID))
-            {
-                _logger.Warn($"Person with ID {PersonAddresseInfo.PersonID} does not exist");
-
-                return clsResultBuilder.BuildPersonAddressResult(null, 
-                    "Person does not exist");
-            }
-
-            if (!clsGovernorateDataAccess.IsGovernorateExists(PersonAddresseInfo.Governorate.GovernorateID)
-                && !clsCountryDataAccess.IsCountryExists(PersonAddresseInfo.Country.CountryID)
-                && !clsCityDataAccess.IsCityExists(PersonAddresseInfo.City.CityID))
-            {
-                _logger.Warn($"Invalid Country, Governorate, or City for PersonID: {PersonAddresseInfo.PersonID}");
-                return clsResultBuilder.BuildPersonAddressResult(null,
-                    "Invalid Country, Governorate, or City information provided.");
-            }
-
             const string query = @"UPDATE PersonAddresses 
-                                SET CountryId = @CountryId,
-                                    GovernorateId = @GovernorateId,
-                                    CityId = @CityId,
-                                    BuildNo = @BuildNo,
-                                    Street = @Street
-                                WHERE PersonID = @PersonID AND id = @PersonAddresseID";
+                        SET CountryId = @CountryId,
+                            GovernorateId = @GovernorateId,
+                            CityId = @CityId,
+                            BuildNo = @BuildNo,
+                            Street = @Street
+                        WHERE PersonID = @PersonID AND id = @PersonAddresseID";
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     AddPersonAddresseParameters(command, PersonAddresseInfo.PersonID, PersonAddresseInfo);
                     command.Parameters.AddWithValue("@PersonAddresseID", PersonAddresseInfo.PersonAddresseID);
-
-                    connection.Open();
 
                     int rowAffected = command.ExecuteNonQuery();
 
@@ -267,6 +227,64 @@ namespace DVLDDataAccessLayer.PersonAddresses
         }
 
         //Helper Methods 
+        private static clsPersonAddressResult CheckPersonAddressInfo(clsPersonAddressInfo PersonAddresseInfo)
+        {
+            if (PersonAddresseInfo == null)
+            {
+                _logger.Warn("Person Addresse Info object is null");
+                return clsResultBuilder.BuildPersonAddressResult(null ,
+                    "Must Be Person Address Info Require");
+            }
+            if (PersonAddresseInfo.PersonID <= 0)
+            {
+                _logger.Warn($"Invalid PersonID provided: {PersonAddresseInfo.PersonID}");
+                return clsResultBuilder.BuildPersonAddressResult(null,
+                    "Invalid PersonID provided");
+            }
+
+            if (IsNullCountry(PersonAddresseInfo.Country)  
+                || IsNullGovernorate(PersonAddresseInfo.Governorate)
+                || IsNullCity(PersonAddresseInfo.City))
+            {
+                _logger.Warn("Country, Governorate, or City information is missing in Person Addresse Info");
+                return clsResultBuilder.BuildPersonAddressResult(null,
+                    "Country, Governorate, or City information is required.");
+            }
+
+            if (!clsGovernorateDataAccess.IsGovernorateExists(PersonAddresseInfo.Governorate.GovernorateID)
+                || !clsCountryDataAccess.IsCountryExists(PersonAddresseInfo.Country.CountryID)
+                || !clsCityDataAccess.IsCityExists(PersonAddresseInfo.City.CityID))
+            {
+                _logger.Warn($"Invalid Country, Governorate, or City for PersonID: {PersonAddresseInfo.PersonID}");
+                return clsResultBuilder.BuildPersonAddressResult(null,
+                    "Invalid Country, Governorate, or City information provided.");
+            }
+
+            if (!clsPersonDataAccess.IsPersonExistsID(PersonAddresseInfo.PersonID))
+            {
+                _logger.Warn($"Person with ID {PersonAddresseInfo.PersonID} does not exist");
+
+                return clsResultBuilder.BuildPersonAddressResult(null,
+                    "Person does not exist");
+            }
+
+            return null;
+        }
+
+        private static bool IsNullCountry(clsCountryInfo countryInfo)
+        {
+            return countryInfo == null;
+        }
+
+        private static bool IsNullGovernorate(clsGovernorateInfo governorateInfo)
+        {
+            return governorateInfo == null;
+        }
+
+        private static bool IsNullCity(clsCityInfo cityInfo)
+        {
+            return cityInfo == null;
+        }
 
         private static void AddPersonAddresseParameters(SqlCommand command, int PersonId ,clsPersonAddressInfo info)
         {

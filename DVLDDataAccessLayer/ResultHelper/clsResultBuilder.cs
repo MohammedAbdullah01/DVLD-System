@@ -103,7 +103,7 @@ namespace DVLDDataAccessLayer.Result_Helper
             {
                 Found = person != null,
                 Person = person,
-                MessageContainer = person != null 
+                GetMessage = person != null 
                     ? Message.FromSuccess(message) 
                     : Message.FromError(message)
             };
