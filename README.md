@@ -5,10 +5,6 @@
 
 The Driving & Vehicle License Department (DVLD) system is designed to manage and issue driving licenses. This system handles various services related to driving licenses including new applications, renewals, replacements, and more.
 
-## Usage
-
-### Main Menu Options
-
 ## 🗃️ Database Structure
 
 ## Core Tables
@@ -21,7 +17,7 @@ The Driving & Vehicle License Department (DVLD) system is designed to manage and
   
   - Cities: Stores city information linked to governorates
 
-2. **Person and User Tables**
+### ***Person and User Tables***
  
   - Persons: Stores personal information of individuals
   
@@ -29,7 +25,7 @@ The Driving & Vehicle License Department (DVLD) system is designed to manage and
   
   - Users: Stores system user data
 
-3. **Process Tables**
+### ***Process Tables***
 
   - Applications: Manages license applications
   
@@ -41,7 +37,7 @@ The Driving & Vehicle License Department (DVLD) system is designed to manage and
   
   - Tests: Test results
 
-5. **License and Driver Tables**
+### ***License and Driver Tables***
 
   - LicenseClasses: Different driver's license classes
   
@@ -51,7 +47,7 @@ The Driving & Vehicle License Department (DVLD) system is designed to manage and
   
   - DetainedLicenses: Confiscated licenses
 
-7. **Support Tables**
+### ***Support Tables***
 
   - AuditLogs: Change tracking log
 
@@ -69,7 +65,7 @@ The Driving & Vehicle License Department (DVLD) system is designed to manage and
 ```
 ## 🎯 Key Features
 
-1. **Comprehensive License Management**
+### ***Comprehensive License Management***
 
   - Track application status (New, In Progress, Completed, Canceled)
   
@@ -77,7 +73,7 @@ The Driving & Vehicle License Department (DVLD) system is designed to manage and
   
   - Track issue and expiration dates
 
-2. **Testing System**
+### ***Testing System***
  
   - Manage test types (Theory, Practical, Vision)
   
@@ -85,7 +81,7 @@ The Driving & Vehicle License Department (DVLD) system is designed to manage and
   
   - Record results and performance evaluation
 
-3. **Record Management**
+### ***Record Management***
  
   - Complete record of detained and released licenses
   
@@ -93,7 +89,7 @@ The Driving & Vehicle License Department (DVLD) system is designed to manage and
   
   - Audit trail for system changes
 
-4. **Performance Optimized**
+### ***Performance Optimized***
  
   - Enhanced indexes for faster queries
   
