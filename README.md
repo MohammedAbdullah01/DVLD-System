@@ -5,7 +5,7 @@
 
 The Driving & Vehicle License Department (DVLD) system is designed to manage and issue driving licenses. This system handles various services related to driving licenses including new applications, renewals, replacements, and more.
 
-## Main Services
+## 🗃️ Database Structure
 
 The system provides the following services, each with a base application fee of $5:
 
