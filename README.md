@@ -5,11 +5,11 @@
 
 The Driving & Vehicle License Department (DVLD) system is designed to manage and issue driving licenses. This system handles various services related to driving licenses including new applications, renewals, replacements, and more.
 
-## 🗃️ Database Structure
+# 🗃️ Database Structure
 
-### Core Tables
+## Core Tables
 
-1. **Geographical Data Table**
+1. ***Geographical Data Table***
  
   - Countries: Stores country information
   
