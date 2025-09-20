@@ -11,9 +11,9 @@ The Driving & Vehicle License Department (DVLD) system is designed to manage and
 
 ## 🗃️ Database Structure
 
-### Core Tables
+## Core Tables
 
-1. ***Geographical Data Table***
+1. ### ***Geographical Data Table***
  
   - Countries: Stores country information
   
